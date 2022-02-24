@@ -30,7 +30,7 @@ This is a school project from embedded programming course of Le Mans University.
   <li><a href="#technical-choices">Technical choices</a></li>
   <li><a href="#structure">Structure</a></li>
   <li><a href="#user-story">User story</a></li>
-  <li><a href="#user's-manual">User's manual</a></li>
+  <li><a href="#user-manual">User manual</a></li>
   <li><a href="#contributors">Contributors</a></li>
   <li><a href="#license">License</a></li>
 </ol>
@@ -59,8 +59,8 @@ This is a school project from embedded programming course of Le Mans University.
 <!-- USER STORY -->
 ## User story
 
-<!-- USER'S MANUAL -->
-## User's manual
+<!-- USER MANUAL -->
+## User manual
 
 <!-- CONTRIBUTORS -->
 ## Contributors
