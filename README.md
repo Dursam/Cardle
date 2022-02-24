@@ -31,8 +31,7 @@ This is a school project from embedded programming course of Le Mans University.
   <li><a href="#structure">Structure</a></li>
   <li><a href="#user-story">User story</a></li>
   <li><a href="#user's-manual">User's manual</a></li>
-  <li><a href="#acknowledgments">Acknowledgments</a></li>
-  <li><a href="#authors">Authors</a></li>
+  <li><a href="#contributors">Contributors</a></li>
   <li><a href="#license">License</a></li>
 </ol>
   
@@ -77,5 +76,3 @@ This is a school project from embedded programming course of Le Mans University.
 [overleaf-url]: https://www.overleaf.com/project/6212a39c9fb87448dc51d4c8
 [gantt-shield]: https://img.shields.io/badge/Google%20Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white
 [gantt-url]: https://docs.google.com/spreadsheets/d/1dqjepWKRaUveipZfcAVP0KHoy-YVO6MS/edit#gid=1264653384
-
-
