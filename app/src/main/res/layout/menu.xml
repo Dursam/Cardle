@@ -11,18 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonCreate"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/round_button_create"
         android:contentDescription="@string/button_desc_create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonDownload"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ButtonCreate"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonCalendar"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -44,11 +44,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ButtonSettings"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonSettings"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/round_button_settings"
         android:contentDescription="@string/button_desc_settings"
