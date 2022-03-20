@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
 
+    // variable for our array list and context
     private Context context;
     private final ArrayList<DeckModel> DeckList;
 
@@ -32,7 +33,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull DeckAdapter.Viewholder holder, int position) {
-        // to set data to textview and imageview of each card layout
+        // to set data to textview of each card layout
         DeckModel model = DeckList.get(position);
         holder.deckNameTV.setText(model.getDeckName());
     }
@@ -45,7 +46,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
     }
 
     // View holder class for initializing of
-    // your views such as TextView and Imageview.
+    // your views such as Imageview.
     public static class Viewholder extends RecyclerView.ViewHolder {
 
         private final TextView deckNameTV;

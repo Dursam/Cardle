@@ -2,24 +2,13 @@ package com.application.cardle;
 
 public class CardModel {
 
-    private Integer number;
     private String question;
-    private String reponse;
+    private String response;
 
     // Constructor
-    public CardModel(Integer number, String question, String reponse) {
-        this.number = number;
+    public CardModel(String question, String response) {
         this.question = question;
-        this.reponse = reponse;
-    }
-
-    // Getter and Setter
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
+        this.response = response;
     }
 
     public String getQuestion() {
@@ -30,12 +19,12 @@ public class CardModel {
         this.question = question;
     }
 
-    public String getReponse() {
-        return reponse;
+    public String getResponse() {
+        return response;
     }
 
-    public void setReponseName(String reponse) {
-        this.reponse = reponse;
+    public void setResponseName(String response) {
+        this.response = response;
     }
 
 }

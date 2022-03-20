@@ -11,7 +11,7 @@ public class DeckModel {
 
     // Getter and Setter
     public String getDeckName() {
-        return deckName;
+        return this.deckName;
     }
 
     public void setDeckName(String deckName) {
