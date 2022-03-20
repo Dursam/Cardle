@@ -8,19 +8,25 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Deck"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="9dp"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonCreate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonCreate"
-        android:layout_width="60dp"
+        android:layout_width="57dp"
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/round_button_create"
         android:contentDescription="@string/button_desc_create"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Deck" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonDownload"
@@ -31,7 +37,7 @@
         android:background="@drawable/round_button_download"
         android:contentDescription="@string/button_desc_download"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ButtonCreate"/>
+        app:layout_constraintStart_toEndOf="@+id/ButtonCreate" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonCalendar"
@@ -42,7 +48,7 @@
         android:background="@drawable/round_button_calendar"
         android:contentDescription="@string/button_desc_calendar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ButtonSettings"/>
+        app:layout_constraintEnd_toStartOf="@+id/ButtonSettings" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ButtonSettings"
@@ -53,6 +59,6 @@
         android:background="@drawable/round_button_settings"
         android:contentDescription="@string/button_desc_settings"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
