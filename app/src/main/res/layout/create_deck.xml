@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateDeck">
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerCards"
+        android:layout_width="379dp"
+        android:layout_height="341dp" />
 
     <Button
-        android:id="@+id/buttonAddDeck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="64dp"
-        android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textViewSetDeck"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        android:id="@+id/buttonDelDeck"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/round_button_delete"
+        android:contentDescription="@string/del" />
 
     <EditText
         android:id="@+id/textViewSetDeck"
-        android:layout_width="154dp"
-        android:layout_height="58dp"
+        android:layout_width="211dp"
+        android:layout_height="69dp"
         android:layout_marginBottom="151dp"
         android:gravity="center"
+        android:hint="@string/deck_name"
         android:importantForAutofill="no"
         android:inputType="text"
-        android:hint="@string/deck_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0"/>
+        android:textColorHint="#546E7A" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="133dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddDeck"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/buttonAddDeck"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/round_button_validate"
+        android:contentDescription="@string/add"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
