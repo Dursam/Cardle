@@ -2,6 +2,7 @@ package com.application.cardle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.carrier.CarrierMessagingService;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,26 +42,28 @@ public class CreateCard extends AppCompatActivity {
 
                 // get the previous activity
                 String activity = intent.getStringExtra("activity");
+                System.out.println(activity);
 
-                // intent
-
-
-                // EmptyDeck or CreateDeck
+                // EmptyDeck
                 if(activity.equals("empty")){
+                    System.out.println("EMPTY");
                     Intent i = new Intent(CreateCard.this, CreateDeck.class);
                     i.putExtra("Question",cardQuestion);
                     i.putExtra("Response",cardResponse);
                     startActivity(i);
-                }else{
+                    finish();
+                }
+
+                // AddingDeck
+                if(activity.equals("adding")) {
+                    System.out.println("ADD");
                     Intent i = new Intent();
-                    i.putExtra("Question",cardQuestion);
-                    i.putExtra("Response",cardResponse);
-                    setResult(RESULT_OK,i);
-                    //finish();
+                    i.putExtra("Question", cardQuestion);
+                    i.putExtra("Response", cardResponse);
+                    setResult(78, i);
+                    CreateCard.super.onBackPressed();
                 }
             }
         });
-
-
     }
 }

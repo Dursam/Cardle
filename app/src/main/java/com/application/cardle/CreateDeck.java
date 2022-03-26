@@ -1,16 +1,17 @@
 package com.application.cardle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.Activity;
+import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,29 @@ public class CreateDeck extends AppCompatActivity {
     Integer cntCards = 1;
 
     // Activity launcher and binding
-    ActivityResultLauncher<Intent> aCards;
+    ActivityResultLauncher<Intent> aCards = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Log.d("CreateDeckTest", "onActivityResult : ...");
+
+                    if (result.getResultCode() == 78) {
+                        // create intent of creating card
+                        Intent data = result.getData();
+                        System.out.println("AVANT LE NULL\n");
+
+                        if(data != null){
+                            System.out.println("DANS LE NULL\n");
+                            question = data.getStringExtra("Question");
+                            response = data.getStringExtra("Response");
+                            VPCards.add(new CardModel(cntCards,question,response));
+                            cntCards++;
+                            viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
+                        }
+                    }
+                }
+            });
     
     //
     String question, response;
@@ -54,11 +77,13 @@ public class CreateDeck extends AppCompatActivity {
             VPCards.add(new CardModel(cntCards,question,response));
             cntCards++;
         }
+        viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
 
         // card creating listener
         addCard.setOnClickListener(v -> {
             // opening a new activity via a intent.
             Intent i = new Intent(CreateDeck.this, CreateCard.class);
+            i.putExtra("activity","adding");
             aCards.launch(i);
         });
 
@@ -84,28 +109,5 @@ public class CreateDeck extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-
-        // get data from CreateCard activity
-        aCards = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // create intent of creating card
-                        Intent data = result.getData();
-                        if(data != null){
-                            question = data.getStringExtra("Question");
-                            response = data.getStringExtra("Response");
-                            VPCards.add(new CardModel(cntCards,question,response));
-                            cntCards++;
-                        }
-                    }
-                });
-        viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
     }
 }
