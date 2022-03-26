@@ -38,10 +38,13 @@
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_download.xml" value="0.1335" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_settings.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_validate.xml" value="0.162" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/card.xml" value="0.25" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/create_card.xml" value="0.20364583333333333" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/create_deck.xml" value="0.25" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck.xml" value="0.26927083333333335" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/empty_state_card.xml" value="0.17527173913043478" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/feature.xml" value="0.1" />
-        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/menu.xml" value="0.335" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/menu.xml" value="0.25" />
       </map>
     </option>
   </component>

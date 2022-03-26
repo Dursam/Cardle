@@ -3,11 +3,9 @@ package com.application.cardle;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class Menu extends AppCompatActivity {
@@ -56,7 +54,7 @@ public class Menu extends AppCompatActivity {
 
         createDeck.setOnClickListener(v -> {
             // opening a new activity via a intent.
-            Intent i = new Intent(Menu.this, CreateDeck.class);
+            Intent i = new Intent(Menu.this, EmptyDeck.class);
             startActivity(i);
         });
 

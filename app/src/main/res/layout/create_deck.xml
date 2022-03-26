@@ -5,24 +5,45 @@
     android:orientation="vertical"
     android:gravity="center">
 
-
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPagerCards"
-        android:layout_width="379dp"
-        android:layout_height="341dp" />
+        android:id="@+id/viewpagerCard"
+        android:layout_width="250dp"
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        android:gravity="center"/>
 
-    <Button
-        android:id="@+id/buttonDelDeck"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/round_button_delete"
-        android:contentDescription="@string/del" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="10dp">
+
+        <Button
+            android:id="@+id/buttonAddCardDeck"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_button_create"
+            android:contentDescription="@string/add"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/buttonDelCardDeck"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_button_delete"
+            android:contentDescription="@string/del"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/textViewSetDeck"
-        android:layout_width="211dp"
-        android:layout_height="69dp"
-        android:layout_marginBottom="151dp"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="150dp"
         android:gravity="center"
         android:hint="@string/deck_name"
         android:importantForAutofill="no"
@@ -34,6 +55,6 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/round_button_validate"
-        android:contentDescription="@string/add"/>
+        android:contentDescription="@string/add" />
 
 </LinearLayout>

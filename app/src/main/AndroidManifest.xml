@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".EmptyDeck"
+            android:exported="false" />
+        <activity
+            android:name=".CreateCard"
+            android:exported="false" />
+        <activity
             android:name=".CreateDeck"
             android:exported="false" />
         <activity

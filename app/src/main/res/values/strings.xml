@@ -8,4 +8,9 @@
     <string name="deck">Deck</string>
     <string name="add">Add</string>
     <string name="del">Delete</string>
+    <string name="new_card">New card</string>
+    <string name="question">Question</string>
+    <string name="response">Response</string>
+    <string name="id_card">ID Card</string>
+    <string name="label_card">Card creating :</string>
 </resources>

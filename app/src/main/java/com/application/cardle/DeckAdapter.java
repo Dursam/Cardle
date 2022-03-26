@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
 
     // variable for our array list and context
-    private Context context;
+    private final Context context;
     private final ArrayList<DeckModel> DeckList;
 
     // Constructor

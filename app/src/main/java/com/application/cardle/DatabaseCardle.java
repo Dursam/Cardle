@@ -69,6 +69,15 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(deck);
+
+        // Table card
+        String card = "CREATE TABLE " + TABLE_CARD + " ("
+                            + COLUMN_ID_CARD + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                            + COLUMN_QUESTION + " TEXT, "
+                            + COLUMN_ANSWER + " TEXT, "
+                            + " FOREIGN KEY ( " + COLUMN_ID_DECK + " ) REFERENCES " + TABLE_DECK + " ( " + COLUMN_ID_DECK +" ))";
+        db.execSQL(card);
+
     }
 
     // METHODS
@@ -86,6 +95,32 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         // on below line we are passing all values
         // along with its key and value pair.
         values.put(COLUMN_NAME_DECK, deckName);
+
+        // after adding all values we are passing
+        // content values to our table.
+        db.insert(TABLE_DECK, null, values);
+
+        // at last we are closing our
+        // database after adding database.
+        db.close();
+    }
+
+    // Add a new card
+    public void addNewCard(String question, String response){
+
+        // on below line we are creating a variable for
+        // our sqlite database and calling writable method
+        // as we are writing data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // on below line we are creating a
+        // variable for content values.
+        ContentValues values = new ContentValues();
+
+        // on below line we are passing all values
+        // along with its key and value pair.
+        values.put(COLUMN_QUESTION, question);
+        values.put(COLUMN_RESPONSE, response);
 
         // after adding all values we are passing
         // content values to our table.
