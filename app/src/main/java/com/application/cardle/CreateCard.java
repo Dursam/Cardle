@@ -2,7 +2,6 @@ package com.application.cardle;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.carrier.CarrierMessagingService;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;

@@ -41,8 +41,9 @@ public class CreateDeck extends AppCompatActivity {
                             question = data.getStringExtra("Question");
                             response = data.getStringExtra("Response");
                             VPCards.add(new CardModel(cntCards,question,response));
-                            cntCards++;
                             viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
+                            viewPager2Card.setCurrentItem(cntCards, true);
+                            cntCards++;
                         }
                     }
                 }
@@ -85,6 +86,19 @@ public class CreateDeck extends AppCompatActivity {
             Intent i = new Intent(CreateDeck.this, CreateCard.class);
             i.putExtra("activity","adding");
             aCards.launch(i);
+        });
+
+        // delete card listener
+        delCard.setOnClickListener(v ->{
+            // delete current card listener
+            Toast.makeText(CreateDeck.this, "Card has been deleted", Toast.LENGTH_SHORT).show();
+            System.out.println(viewPager2Card.getCurrentItem());
+            VPCards.remove(viewPager2Card.getCurrentItem());
+            viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
+            cntCards--;
+            if(cntCards == 1){
+                CreateDeck.super.onBackPressed();
+            }
         });
 
         // deck creating listener
