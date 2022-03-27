@@ -5,12 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import java.util.ArrayList;
 
 public class DatabaseCardle extends SQLiteOpenHelper {
 
     // Database Name
-    private static final String DATABASE_NAME = "CardleDB";
+    private static final String DATABASE_NAME = "TestDB";
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -27,28 +28,6 @@ public class DatabaseCardle extends SQLiteOpenHelper {
     private static final String TABLE_DECK = "Deck";
     private static final String COLUMN_ID_DECK ="id_deck";
     private static final String COLUMN_NAME_DECK ="name_deck";
-
-    // COURSE
-    private static final String TABLE_COURSE = "Course";
-    private static final String COLUMN_ID_COURSE ="id_course";
-    private static final String COLUMN_NAME_COURSE ="name_course";
-
-    // DATE
-    private static final String TABLE_DATE = "Date";
-    private static final String COLUMN_ID_DATE ="id_date";
-    private static final String COLUMN_DAY ="day";
-    private static final String COLUMN_MONTH ="month";
-    private static final String COLUMN_YEAR ="year";
-
-    // TIME
-    private static final String TABLE_TIME = "Time";
-    private static final String COLUMN_ID_TIME ="id_date";
-    private static final String COLUMN_HOUR ="hour";
-    private static final String COLUMN_MINUTE ="minute";
-
-    // PRACTISE
-    private static final String TABLE_PRACTISE = "Practise";
-    private static final String COLUMN_ANSWER ="answer";
 
     // Constructor
     public DatabaseCardle(Context context){
@@ -70,13 +49,13 @@ public class DatabaseCardle extends SQLiteOpenHelper {
                             + COLUMN_ID_CARD  + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
                             + COLUMN_QUESTION + " TEXT, "
                             + COLUMN_RESPONSE + " TEXT, "
-                            + COLUMN_ID_DECK  + " INTEGER, "
-                            + " FOREIGN KEY ( " + COLUMN_ID_DECK + " ) REFERENCES " + TABLE_DECK + " ( " + COLUMN_ID_DECK +" ))";
+                            + COLUMN_ID_DECK  + " INTEGER)";
 
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(deck);
         db.execSQL(card);
+
     }
 
     // reset all data
@@ -84,6 +63,7 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DECK, null, null);
         db.delete(TABLE_CARD, null, null);
+        db.close();
     }
 
     // METHODS
@@ -166,6 +146,25 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         mCursor.close();
 
         return idDeck.get(0);
+    }
+
+    // Delete a card
+    public void delCard(String deckId){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_CARD, COLUMN_ID_CARD + "=" + deckId, null);
+
+        db.close();
+
+    }
+
+    // Replace a name deck
+    public void replaceDeckName(String deckId,String deckName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sqlC = "REPLACE INTO Deck (id_deck,name_deck) VALUES (" + deckId + ",'" + deckName + "')";
+        db.execSQL(sqlC);
+        db.close();
     }
 
     // Return all card list with deck id argument

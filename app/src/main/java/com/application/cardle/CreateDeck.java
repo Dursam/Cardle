@@ -23,6 +23,11 @@ public class CreateDeck extends AppCompatActivity {
     // cards counter
     Integer cntCards = 1;
 
+    // Updating data already
+    ArrayList<CardModel> allCard;
+    ArrayList<Integer> allIdCard;
+    String nameDeck;
+
     // Activity launcher and binding
     ActivityResultLauncher<Intent> aCards = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -30,17 +35,19 @@ public class CreateDeck extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     Log.d("CreateDeckTest", "onActivityResult : ...");
-
                     if (result.getResultCode() == 78) {
                         // create intent of creating card
                         Intent data = result.getData();
-                        System.out.println("AVANT LE NULL\n");
-
                         if(data != null){
-                            System.out.println("DANS LE NULL\n");
                             question = data.getStringExtra("Question");
                             response = data.getStringExtra("Response");
                             VPCards.add(new CardModel(cntCards,question,response));
+
+                            // Update numbers cards
+                            for(int i = 0; i < VPCards.size(); i++){
+                                VPCards.get(i).setId_card(i+1);
+                            }
+
                             viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
                             viewPager2Card.setCurrentItem(cntCards, true);
                             cntCards++;
@@ -80,16 +87,17 @@ public class CreateDeck extends AppCompatActivity {
             VPCards.add(new CardModel(cntCards,question,response));
             cntCards++;
         } else if(activity.equals("already")){
-            String nameDeck = extras.getString("deck");
-            ArrayList<CardModel> allCard = dbCardle.readCards(dbCardle.getIdDeck(nameDeck).toString());
-            ArrayList<Integer> allIdCard = new ArrayList<>();
+            nameDeck = extras.getString("deck");
+            allCard = dbCardle.readCards(dbCardle.getIdDeck(nameDeck).toString());
+            allIdCard = new ArrayList<>();
             for (int i = 0; i < allCard.size(); i++){
                 allIdCard.add(allCard.get(i).getIdCard());
                 allCard.get(i).setId_card(i+1);
             }
+            editDeckName.setText(nameDeck);
             VPCards = allCard;
+            cntCards = VPCards.size()+1;
         }
-
         viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
 
         // card creating listener
@@ -105,7 +113,17 @@ public class CreateDeck extends AppCompatActivity {
             // delete current card listener
             Toast.makeText(CreateDeck.this, "Card has been deleted", Toast.LENGTH_SHORT).show();
             System.out.println(viewPager2Card.getCurrentItem());
-            VPCards.remove(viewPager2Card.getCurrentItem());
+            CardModel CardElm = VPCards.remove(viewPager2Card.getCurrentItem());
+
+            if(activity.equals("already")){
+                dbCardle.delCard(allIdCard.get(CardElm.getIdCard()-1).toString());
+            }
+
+            // Update numbers cards
+            for(int i = 0; i < VPCards.size(); i++){
+                VPCards.get(i).setId_card(i+1);
+            }
+
             viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
             cntCards--;
             if(cntCards == 1){
@@ -123,11 +141,28 @@ public class CreateDeck extends AppCompatActivity {
             if (deckName.isEmpty()) {
                 Toast.makeText(CreateDeck.this, "Please enter a deck name", Toast.LENGTH_SHORT).show();
             }else {
-                // add the deck
-                dbCardle.addNewDeck(deckName);
+
+                if(activity.equals("empty")){
+                    // add the deck
+                    dbCardle.addNewDeck(deckName);
+                } else if(activity.equals("activity")){
+                    dbCardle.replaceDeckName(dbCardle.getIdDeck(deckName).toString(),editDeckName.getText().toString());
+                }
 
                 // get id deck to put as foreign key to all cards
                 Integer idDeck = dbCardle.getIdDeck(deckName);
+
+                // Update VPCards and avoid a duplication data that already exist in database
+                if(activity.equals("already")){
+                    for (int i = 0; i < allCard.size()+1; i++){
+                        for (int j = 0; j < VPCards.size()+1; j++){
+                            if(allCard.get(i).getQuestion().equals(VPCards.get(j).getQuestion()) &&
+                                    allCard.get(i).getResponse().equals(VPCards.get(j).getResponse())){
+                                VPCards.remove(VPCards.get(j));
+                            }
+                        }
+                    }
+                }
 
                 // add all cards
                 for (int i = 0; i < VPCards.size(); i++){

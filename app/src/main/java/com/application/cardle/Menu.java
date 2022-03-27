@@ -24,7 +24,7 @@ public class Menu extends AppCompatActivity {
         DatabaseCardle dbCardle = new DatabaseCardle(Menu.this);
 
         // Uncomment for reset database, but it will crash your app, Comment after, build and lauch it !
-        // dbCardle.reset();
+        //dbCardle.reset();
 
         // here we have created new array list and added data to it.
         // Arraylist for storing data
@@ -83,6 +83,9 @@ public class Menu extends AppCompatActivity {
                                     cardModelArrayList.get(i).getIdCard());
             }
         }
+
+        //ArrayList<CardModel> test1 = new ArrayList<>();
+        //test1 = dbCardle.readCards("45");
 
         // we are initializing our adapter class and passing our arraylist to it.
         DeckAdapter DeckAdapter = new DeckAdapter(this, dbCardle.readDecks());
