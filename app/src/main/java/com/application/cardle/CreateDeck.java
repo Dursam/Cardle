@@ -114,6 +114,14 @@ public class CreateDeck extends AppCompatActivity {
                 // add the deck
                 dbCardle.addNewDeck(deckName);
 
+                // get id deck to put as foreign key to all cards
+                Integer idDeck = dbCardle.getIdDeck(deckName);
+
+                // add all cards
+                for (int i = 0; i < VPCards.size(); i++){
+                    dbCardle.addNewCard(VPCards.get(i).getQuestion(),VPCards.get(i).getResponse(),idDeck);
+                }
+
                 // after adding the data we are displaying a toast message.
                 Toast.makeText(CreateDeck.this, "Deck has been added", Toast.LENGTH_SHORT).show();
                 editDeckName.setText("");
@@ -121,6 +129,7 @@ public class CreateDeck extends AppCompatActivity {
                 // opening a new activity via a intent.
                 Intent i = new Intent(CreateDeck.this, Menu.class);
                 startActivity(i);
+                finish();
             }
         });
     }

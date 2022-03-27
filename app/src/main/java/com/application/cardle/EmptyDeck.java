@@ -20,6 +20,7 @@ public class EmptyDeck extends AppCompatActivity {
             Intent i = new Intent(EmptyDeck.this, CreateCard.class);
             i.putExtra("activity","empty");
             startActivity(i);
+            finish();
         });
     }
 }

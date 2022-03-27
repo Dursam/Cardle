@@ -106,7 +106,7 @@ public class DatabaseCardle extends SQLiteOpenHelper {
     }
 
     // Add a new card
-    public void addNewCard(String question, String response){
+    public void addNewCard(String question, String response, Integer foreignK){
 
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
@@ -121,16 +121,34 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         // along with its key and value pair.
         values.put(COLUMN_QUESTION, question);
         values.put(COLUMN_RESPONSE, response);
+        values.put(COLUMN_ID_DECK, foreignK);
 
         // after adding all values we are passing
         // content values to our table.
-        db.insert(TABLE_DECK, null, values);
+        db.insert(TABLE_CARD, null, values);
 
         // at last we are closing our
         // database after adding database.
         db.close();
     }
 
+    // Get deck ID
+    public Integer getIdDeck(String deckName){
+
+        // on below line we are creating a
+        // database for reading our database.
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // on below line we are creating a cursor with query to read data from database.
+        Cursor mCursor = db.rawQuery("SELECT id_deck FROM " + TABLE_DECK + " WHERE name_deck == " + deckName, null);
+
+        Integer idRes = mCursor.getInt(0);
+        mCursor.close();
+
+        return idRes;
+    }
+
+    // Return all deck list
     public ArrayList<DeckModel> readDecks() {
 
         // on below line we are creating a
