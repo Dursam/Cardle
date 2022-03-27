@@ -72,12 +72,24 @@ public class CreateDeck extends AppCompatActivity {
 
         // recuperate Extra of cards (for empty activity)
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        String activity = extras.getString("activity");
+
+        if(activity.equals("empty")){
             question = extras.getString("Question");
             response = extras.getString("Response");
             VPCards.add(new CardModel(cntCards,question,response));
             cntCards++;
+        } else if(activity.equals("already")){
+            String nameDeck = extras.getString("deck");
+            ArrayList<CardModel> allCard = dbCardle.readCards(dbCardle.getIdDeck(nameDeck).toString());
+            ArrayList<Integer> allIdCard = new ArrayList<>();
+            for (int i = 0; i < allCard.size(); i++){
+                allIdCard.add(allCard.get(i).getIdCard());
+                allCard.get(i).setId_card(i+1);
+            }
+            VPCards = allCard;
         }
+
         viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
 
         // card creating listener

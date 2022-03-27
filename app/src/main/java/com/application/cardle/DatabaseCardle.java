@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.util.ArrayList;
 
 public class DatabaseCardle extends SQLiteOpenHelper {
@@ -66,18 +65,25 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         String deck = "CREATE TABLE " + TABLE_DECK + " ("
                             + COLUMN_ID_DECK + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
                             + COLUMN_NAME_DECK + " TEXT)";
+        // Table card
+        String card = "CREATE TABLE " + TABLE_CARD + " ("
+                            + COLUMN_ID_CARD  + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                            + COLUMN_QUESTION + " TEXT, "
+                            + COLUMN_RESPONSE + " TEXT, "
+                            + COLUMN_ID_DECK  + " INTEGER, "
+                            + " FOREIGN KEY ( " + COLUMN_ID_DECK + " ) REFERENCES " + TABLE_DECK + " ( " + COLUMN_ID_DECK +" ))";
+
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(deck);
-
-        // Table card
-        String card = "CREATE TABLE " + TABLE_CARD + " ("
-                            + COLUMN_ID_CARD + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                            + COLUMN_QUESTION + " TEXT, "
-                            + COLUMN_ANSWER + " TEXT, "
-                            + " FOREIGN KEY ( " + COLUMN_ID_DECK + " ) REFERENCES " + TABLE_DECK + " ( " + COLUMN_ID_DECK +" ))";
         db.execSQL(card);
+    }
 
+    // reset all data
+    public void reset(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_DECK, null, null);
+        db.delete(TABLE_CARD, null, null);
     }
 
     // METHODS
@@ -140,12 +146,61 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // on below line we are creating a cursor with query to read data from database.
-        Cursor mCursor = db.rawQuery("SELECT id_deck FROM " + TABLE_DECK + " WHERE name_deck == " + deckName, null);
+        Cursor mCursor = db.rawQuery("SELECT " + COLUMN_ID_DECK +
+                                         " FROM "  + TABLE_DECK +
+                                         " WHERE " + COLUMN_NAME_DECK +
+                                         " == '" + deckName + "'", null);
 
-        Integer idRes = mCursor.getInt(0);
+        // on below line we are creating a new array list.
+        ArrayList<Integer> idDeck = new ArrayList<>();
+
+        if (mCursor.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                idDeck.add(mCursor.getInt(0));
+            } while (mCursor.moveToNext());
+            // moving our cursor to next.
+        }
+
+        System.out.println(idDeck.get(0).intValue());
         mCursor.close();
 
-        return idRes;
+        return idDeck.get(0);
+    }
+
+    // Return all card list with deck id argument
+    public ArrayList<CardModel> readCards(String deckID){
+
+        // on below line we are creating a
+        // database for reading our database.
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // on below line we are creating a cursor with query to read data from database.
+        Cursor cursorCards = db.rawQuery("SELECT " + COLUMN_ID_CARD + " , "
+                + COLUMN_QUESTION + " , "
+                + COLUMN_RESPONSE
+                + " FROM " + TABLE_CARD
+                + " WHERE " + COLUMN_ID_DECK
+                + " == " + deckID, null);
+
+        // on below line we are creating a new array list.
+        ArrayList<CardModel> cardModelArrayList = new ArrayList<>();
+
+        // moving our cursor to first position.
+        if (cursorCards.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                cardModelArrayList.add(new CardModel(cursorCards.getInt(0),
+                                                     cursorCards.getString(1),
+                                                     cursorCards.getString(2)));
+            } while (cursorCards.moveToNext());
+            // moving our cursor to next.
+        }
+        // at last closing our cursor
+        // and returning our array list.
+        cursorCards.close();
+
+        return cardModelArrayList;
     }
 
     // Return all deck list
@@ -175,6 +230,35 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         return deckModelArrayList;
     }
 
+    // Return all deck list
+    public Integer sizeTable(String nameTable) {
+
+        // on below line we are creating a
+        // database for reading our database.
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // on below line we are creating a cursor with query to read data from database.
+        Cursor cursorDecks = db.rawQuery("SELECT * FROM " + nameTable, null);
+
+        // on below line we are creating a new array list.
+        ArrayList<DeckModel> resArrayList = new ArrayList<>();
+
+        // moving our cursor to first position.
+        if (cursorDecks.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                resArrayList.add(new DeckModel(cursorDecks.getString(1)));
+            } while (cursorDecks.moveToNext());
+            // moving our cursor to next.
+        }
+        // at last closing our cursor
+        // and returning our array list.
+        cursorDecks.close();
+
+        return resArrayList.size();
+    }
+
+    // Return empty or not
     public boolean checkTableEmpty(String tableName){
 
         // on below line we are creating a
@@ -196,7 +280,7 @@ public class DatabaseCardle extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DECK);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARD);
         onCreate(db);
     }
-
 }

@@ -49,6 +49,7 @@ public class CreateCard extends AppCompatActivity {
                     Intent i = new Intent(CreateCard.this, CreateDeck.class);
                     i.putExtra("Question",cardQuestion);
                     i.putExtra("Response",cardResponse);
+                    i.putExtra("activity","empty");
                     startActivity(i);
                     finish();
                 }

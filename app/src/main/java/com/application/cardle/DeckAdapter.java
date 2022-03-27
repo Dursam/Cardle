@@ -2,6 +2,7 @@ package com.application.cardle;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,13 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             deckNameTV = itemView.findViewById(R.id.DeckName);
+
+            itemView.setOnClickListener(v -> {
+                Intent i = new Intent(itemView.getContext(), CreateDeck.class);
+                i.putExtra("activity","already");
+                i.putExtra("deck",deckNameTV.getText());
+                itemView.getContext().startActivity(i);
+            });
         }
     }
 }

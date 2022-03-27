@@ -23,6 +23,9 @@ public class Menu extends AppCompatActivity {
         // and passing our context to it
         DatabaseCardle dbCardle = new DatabaseCardle(Menu.this);
 
+        // Uncomment for reset database, but it will crash your app, Comment after, build and lauch it !
+        // dbCardle.reset();
+
         // here we have created new array list and added data to it.
         // Arraylist for storing data
         ArrayList<DeckModel> deckModelArrayList = new ArrayList<>();
@@ -73,17 +76,13 @@ public class Menu extends AppCompatActivity {
             for (int i = 0; i < deckModelArrayList.size(); i++){
                 dbCardle.addNewDeck(deckModelArrayList.get(i).getDeckName());
             }
+            for (int i = 0; i < cardModelArrayList.size(); i++){
+                System.out.println(i);
+                dbCardle.addNewCard(cardModelArrayList.get(i).getQuestion(),
+                                    cardModelArrayList.get(i).getResponse(),
+                                    cardModelArrayList.get(i).getIdCard());
+            }
         }
-
-        // on below line we are calling a method to add new
-        // course to sqlite data and pass all our values to it.
-        //if(!(dbCardle.checkTableEmpty("Card"))){
-        //    for (int i = 0; i < cardModelArrayList.size(); i++){
-        //        dbCardle.addNewCard( cardModelArrayList.get(i).getQuestion(),
-        //                             cardModelArrayList.get(i).getResponse(),
-        //                             cardModelArrayList.get(i).getIdCard());
-        //    }
-        //}
 
         // we are initializing our adapter class and passing our arraylist to it.
         DeckAdapter DeckAdapter = new DeckAdapter(this, dbCardle.readDecks());
