@@ -1,4 +1,4 @@
-package com.application.cardle;
+package com.application.cardle.deck;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -8,65 +8,77 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.application.cardle.card.CardAdapter;
+import com.application.cardle.card.CardModal;
+import com.application.cardle.card.CardCreate;
+import com.application.cardle.DataBase;
+import com.application.cardle.MainActivity;
+import com.application.cardle.R;
 import java.util.ArrayList;
 
-public class CreateDeck extends AppCompatActivity {
+public class DeckCreate extends AppCompatActivity {
 
-    // ViewPager2 for cards
+    /*
+     * Activity of deck and cards creating
+     */
+
+    // component for viewpager2
     ViewPager2 viewPager2Card;
-    ArrayList<CardModel> VPCards;
+    ArrayList<CardModal> VPCards;
+
+    // component for updating cards that already existed
+    ArrayList<Integer> allIdCard;
+    ArrayList<CardModal> allCard, newCardFromAlready;
+
+    // component for deck and cards creating
+    String question, response, nameDeck ;
+
     // cards counter
     Integer cntCards = 1;
 
-    // Updating data already
-    ArrayList<CardModel> allCard;
-    ArrayList<Integer> allIdCard;
-    ArrayList<CardModel> newCardFromAlready;
-    String nameDeck;
-
-    // Activity launcher and binding
+    // Activity launcher and binding from card_create
     ActivityResultLauncher<Intent> aCards = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Log.d("CreateDeckTest", "onActivityResult : ...");
+                    // activity from card_create is done without problem : code 78 checked
                     if (result.getResultCode() == 78) {
-                        // create intent of creating card
+                        // create intent of card creating
                         Intent data = result.getData();
                         if(data != null){
+
+                            // add the new card in the viewpager2
                             question = data.getStringExtra("Question");
                             response = data.getStringExtra("Response");
-                            VPCards.add(new CardModel(cntCards,question,response));
-                            newCardFromAlready.add(new CardModel(cntCards,question,response));
+                            VPCards.add(new CardModal(cntCards,question,response));
 
-                            // Update numbers cards
+                            // store the new cards added
+                            newCardFromAlready.add(new CardModal(cntCards,question,response));
+
+                            // update numbers cards
                             for(int i = 0; i < VPCards.size(); i++){
                                 VPCards.get(i).setId_card(i+1);
                             }
 
-                            viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
+                            // refresh the viewpager2 and counter
+                            viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
                             viewPager2Card.setCurrentItem(cntCards, true);
                             cntCards++;
                         }
                     }
                 }
             });
-    
-    //
-    String question, response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_deck);
+        setContentView(R.layout.deck_create);
 
-        // initializing all our variables.
+        // get all the components id from deck_create
         Button addCard = findViewById(R.id.buttonAddCardDeck);
         Button delCard = findViewById(R.id.buttonDelCardDeck);
         Button createDeck = findViewById(R.id.buttonAddDeck);
@@ -74,21 +86,28 @@ public class CreateDeck extends AppCompatActivity {
         viewPager2Card = findViewById(R.id.viewpagerCard);
 
         // create a new database class and passing our context to it.
-        DatabaseCardle dbCardle = new DatabaseCardle(CreateDeck.this);
+        DataBase dbCardle = new DataBase(DeckCreate.this);
 
-        // create a new arraylist of card object
+        // create new arraylist of card object
+        // VPCards if for the view and newCardFromAlready
+        // is to add new card in a deck that already existed
         VPCards = new ArrayList<>();
         newCardFromAlready = new ArrayList<>();
 
-        // recuperate Extra of cards (for empty activity)
+        // get the previous activity
         Bundle extras = getIntent().getExtras();
         String activity = extras.getString("activity");
 
+        // activity from "empty" (DeckEmpty) DO
+        // add a the first card
         if(activity.equals("empty")){
             question = extras.getString("Question");
             response = extras.getString("Response");
-            VPCards.add(new CardModel(cntCards,question,response));
+            VPCards.add(new CardModal(cntCards,question,response));
             cntCards++;
+
+        // activity from "already" (MainActivity) DO
+        // add a new card from a deck that already existed
         } else if(activity.equals("already")){
             nameDeck = extras.getString("deck");
             allCard = dbCardle.readCards(dbCardle.getIdDeck(nameDeck).toString());
@@ -101,12 +120,14 @@ public class CreateDeck extends AppCompatActivity {
             VPCards = allCard;
             cntCards = VPCards.size()+1;
         }
-        viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
+
+        // refresh viewpager2
+        viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
 
         // card creating listener
         addCard.setOnClickListener(v -> {
-            // opening a new activity via a intent.
-            Intent i = new Intent(CreateDeck.this, CreateCard.class);
+            // opening a new activity creating card via a intent
+            Intent i = new Intent(DeckCreate.this, CardCreate.class);
             i.putExtra("activity","adding");
             aCards.launch(i);
         });
@@ -114,52 +135,57 @@ public class CreateDeck extends AppCompatActivity {
         // delete card listener
         delCard.setOnClickListener(v ->{
             // delete current card listener
-            Toast.makeText(CreateDeck.this, "Card has been deleted", Toast.LENGTH_SHORT).show();
-            // System.out.println(viewPager2Card.getCurrentItem());
-            CardModel CardElm = VPCards.remove(viewPager2Card.getCurrentItem());
-
+            Toast.makeText(DeckCreate.this, "Card has been deleted", Toast.LENGTH_SHORT).show();
+            CardModal CardElm = VPCards.remove(viewPager2Card.getCurrentItem());
             if(activity.equals("already")){
                 dbCardle.delCard(allIdCard.get(CardElm.getIdCard()-1).toString());
             }
-
-            // Update numbers cards
+            // update numbers cards
             for(int i = 0; i < VPCards.size(); i++){
                 VPCards.get(i).setId_card(i+1);
             }
-
-            viewPager2Card.setAdapter(new CardAdapter(CreateDeck.this,VPCards));
+            // refresh viewpager2
+            viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
             cntCards--;
+            // go back to the previous activity if 0 card in the deck
             if(cntCards == 1){
-                CreateDeck.super.onBackPressed();
+                DeckCreate.super.onBackPressed();
             }
         });
 
         // deck creating listener
         createDeck.setOnClickListener(v -> {
 
-            // below line is to get data from all edit text fields.
+            // get the new name of the deck
             String deckName = editDeckName.getText().toString();
 
-            // validating if the text fields are empty or not.
+            // check empty edit text box
             if (deckName.isEmpty()) {
-                Toast.makeText(CreateDeck.this, "Please enter a deck name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeckCreate.this, "Please enter a deck name", Toast.LENGTH_SHORT).show();
+            // DO
             }else {
+                // activity from "empty" (DeckEmpty) DO
+                // add the new deck in database
                 if(activity.equals("empty")){
-                    // add the deck
                     dbCardle.addNewDeck(deckName);
+                // activity from "already" (MainActivity) DO
+                // replace the name deck by another
                 } else if(activity.equals("already")){
                     dbCardle.replaceDeckName(dbCardle.getIdDeck(nameDeck).toString(),deckName);
                 }
 
-                // get id deck to put as foreign key to all cards
+                // get the id deck
                 Integer idDeck = dbCardle.getIdDeck(deckName);
 
-                // Update VPCards and avoid a duplication data that already exist in database
+                // activity from "empty" (DeckEmpty) DO
+                // add the all cards of the emerged deck
                 if(activity.equals("empty")){
                     // add all cards
                     for (int i = 0; i < VPCards.size(); i++){
                         dbCardle.addNewCard(VPCards.get(i).getQuestion(),VPCards.get(i).getResponse(),idDeck);
                     }
+                // activity from "already" (MainActivity) DO
+                // add the all cards of the existed deck
                 } else if(activity.equals("already")){
                     for (int i = 0; i < newCardFromAlready.size(); i++){
                         dbCardle.addNewCard(newCardFromAlready.get(i).getQuestion(),newCardFromAlready.get(i).getResponse(),idDeck);
@@ -167,11 +193,11 @@ public class CreateDeck extends AppCompatActivity {
                 }
 
                 // after adding the data we are displaying a toast message.
-                Toast.makeText(CreateDeck.this, "Deck has been added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeckCreate.this, "Deck has been added", Toast.LENGTH_SHORT).show();
                 editDeckName.setText("");
 
-                // start new activity
-                Intent i = new Intent(CreateDeck.this, Menu.class);
+                // come to the main activity
+                Intent i = new Intent(DeckCreate.this, MainActivity.class);
                 startActivity(i);
             }
         });

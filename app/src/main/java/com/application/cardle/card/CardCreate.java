@@ -1,21 +1,25 @@
-package com.application.cardle;
+package com.application.cardle.card;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.application.cardle.R;
+import com.application.cardle.deck.DeckCreate;
 
-public class CreateCard extends AppCompatActivity {
+public class CardCreate extends AppCompatActivity {
 
+    /*
+     * Activity of cards creating
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_card);
+        setContentView(R.layout.card_create);
 
-        // initializing all our variables.
+        // get all the components id from card_create
         Button createCard = findViewById(R.id.buttonAddCard);
         EditText editCardQuestion = findViewById(R.id.textViewSetQuestion);
         EditText editCardResponse = findViewById(R.id.textViewSetResponse);
@@ -30,12 +34,15 @@ public class CreateCard extends AppCompatActivity {
             String cardQuestion = editCardQuestion.getText().toString();
             String cardResponse = editCardResponse.getText().toString();
 
-            // validating if the text fields are empty or not.
+            // check empty edit text box
             if (cardQuestion.isEmpty() || cardResponse.isEmpty() ) {
-                Toast.makeText(CreateCard.this, "Please enter a question and response", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CardCreate.this, "Please enter a question and response", Toast.LENGTH_SHORT).show();
+            // DO
             }else {
-                // after adding the data we are displaying a toast message.
-                Toast.makeText(CreateCard.this, "Card has been added", Toast.LENGTH_SHORT).show();
+                // display a toast message that's card is adding
+                Toast.makeText(CardCreate.this, "Card has been added", Toast.LENGTH_SHORT).show();
+
+                // reset edit text box
                 editCardQuestion.setText("");
                 editCardResponse.setText("");
 
@@ -43,10 +50,10 @@ public class CreateCard extends AppCompatActivity {
                 String activity = intent.getStringExtra("activity");
                 System.out.println(activity);
 
-                // EmptyDeck
+                // activity from "empty" (DeckEmpty) DO
+                // add the first card in the deck before he was an empty deck
                 if(activity.equals("empty")){
-                    System.out.println("EMPTY");
-                    Intent i = new Intent(CreateCard.this, CreateDeck.class);
+                    Intent i = new Intent(CardCreate.this, DeckCreate.class);
                     i.putExtra("Question",cardQuestion);
                     i.putExtra("Response",cardResponse);
                     i.putExtra("activity","empty");
@@ -54,14 +61,16 @@ public class CreateCard extends AppCompatActivity {
                     finish();
                 }
 
-                // AddingDeck
+                // activity from "adding" (DeckCreate) DO
+                // add the card below existing cards in the deck
                 if(activity.equals("adding")) {
-                    System.out.println("ADD");
                     Intent i = new Intent();
                     i.putExtra("Question", cardQuestion);
                     i.putExtra("Response", cardResponse);
+                    // when activity is done without problems, we send our personal code 78
+                    // to ask of DeckCreate to add a new card
                     setResult(78, i);
-                    CreateCard.super.onBackPressed();
+                    CardCreate.super.onBackPressed();
                 }
             }
         });

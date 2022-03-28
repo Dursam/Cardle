@@ -5,11 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
+import com.application.cardle.card.CardModal;
+import com.application.cardle.deck.DeckModal;
 import java.util.ArrayList;
 
-public class DatabaseCardle extends SQLiteOpenHelper {
+public class DataBase extends SQLiteOpenHelper {
 
     // Database Name
     private static final String DATABASE_NAME = "TestDB";
@@ -17,7 +17,9 @@ public class DatabaseCardle extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
-    // Database Table name and column
+    /*
+     * Database Table name and column
+     */
 
     // CARD
     private static final String TABLE_CARD = "Card";
@@ -30,18 +32,22 @@ public class DatabaseCardle extends SQLiteOpenHelper {
     private static final String COLUMN_ID_DECK ="id_deck";
     private static final String COLUMN_NAME_DECK ="name_deck";
 
-    // Constructor
-    public DatabaseCardle(Context context){
+    /**
+     * Constructor DataBase : the database of Cardle app
+     * @param context name of activity context
+     */
+    public DataBase(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
-    // Create table
     @Override
     public void onCreate(SQLiteDatabase db){
         // on below line we are creating
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
+
+        // Table deck
         String deck = "CREATE TABLE " + TABLE_DECK + " ("
                             + COLUMN_ID_DECK + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
                             + COLUMN_NAME_DECK + " TEXT)";
@@ -56,10 +62,11 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         // method to execute above sql query
         db.execSQL(deck);
         db.execSQL(card);
-
     }
 
-    // reset all data
+    /**
+     * Reset all data.
+     */
     public void reset(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DECK, null, null);
@@ -67,7 +74,10 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         db.close();
     }
 
-    // METHODS
+    /**
+     * Adding deck method.
+     * @param deckName deck name
+     */
     public void addNewDeck(String deckName){
 
         // on below line we are creating a variable for
@@ -92,7 +102,12 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Add a new card
+    /**
+     * Adding card method.
+     * @param question question
+     * @param response response
+     * @param foreignK id_deck
+     */
     public void addNewCard(String question, String response, Integer foreignK){
 
         // on below line we are creating a variable for
@@ -119,54 +134,51 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Get deck ID
+    /**
+     * Get the id deck.
+     * @param deckName deck name
+     * @return identification deck
+     */
     public Integer getIdDeck(String deckName){
-
-        // on below line we are creating a
-        // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
-
-        // on below line we are creating a cursor with query to read data from database.
-
-        // System.out.println(deckName);
-
-
         String [] projection = {COLUMN_ID_DECK};
         String selection = COLUMN_NAME_DECK + " = ?";
         String [] args = {String.valueOf(deckName)};
-
         Cursor mCursor = db.query(TABLE_DECK,projection,selection,args,null,null,null);
-
         mCursor.moveToFirst();
         return mCursor.getInt(0);
     }
 
-    // Delete a card
+    /**
+     * Delete the card in database.
+     * @param deckId id deck
+     */
     public void delCard(String deckId){
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.delete(TABLE_CARD, COLUMN_ID_CARD + "=" + deckId, null);
-
         db.close();
-
     }
 
-    // Replace a name deck
+    /**
+     * Replace from actual deck name to new.
+     * @param deckId id deck
+     * @param deckName name deck
+     */
     public void replaceDeckName(String deckId,String deckName){
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_ID_DECK,deckId);
         contentValues.put(COLUMN_NAME_DECK,deckName);
         db.replace(TABLE_DECK,null,contentValues);
-
         db.close();
     }
 
-    // Return all card list with deck id argument
-    public ArrayList<CardModel> readCards(String deckID){
-
+    /**
+     * Get all card in a list.
+     * @param deckID id deck
+     * @return list of cards
+     */
+    public ArrayList<CardModal> readCards(String deckID){
         // on below line we are creating a
         // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
@@ -180,13 +192,13 @@ public class DatabaseCardle extends SQLiteOpenHelper {
                 + " == " + deckID, null);
 
         // on below line we are creating a new array list.
-        ArrayList<CardModel> cardModelArrayList = new ArrayList<>();
+        ArrayList<CardModal> cardModalArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
         if (cursorCards.moveToFirst()) {
             do {
                 // on below line we are adding the data from cursor to our array list.
-                cardModelArrayList.add(new CardModel(cursorCards.getInt(0),
+                cardModalArrayList.add(new CardModal(cursorCards.getInt(0),
                                                      cursorCards.getString(1),
                                                      cursorCards.getString(2)));
             } while (cursorCards.moveToNext());
@@ -195,13 +207,14 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         // at last closing our cursor
         // and returning our array list.
         cursorCards.close();
-
-        return cardModelArrayList;
+        return cardModalArrayList;
     }
 
-    // Return all deck list
-    public ArrayList<DeckModel> readDecks() {
-
+    /**
+     * Get all deck in a list.
+     * @return list of deck
+     */
+    public ArrayList<DeckModal> readDecks() {
         // on below line we are creating a
         // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
@@ -210,40 +223,36 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         Cursor cursorDecks = db.rawQuery("SELECT * FROM " + TABLE_DECK, null);
 
         // on below line we are creating a new array list.
-        ArrayList<DeckModel> deckModelArrayList = new ArrayList<>();
+        ArrayList<DeckModal> deckModalArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
         if (cursorDecks.moveToFirst()) {
             do {
                 // on below line we are adding the data from cursor to our array list.
-                deckModelArrayList.add(new DeckModel(cursorDecks.getString(1)));
+                deckModalArrayList.add(new DeckModal(cursorDecks.getString(1)));
             } while (cursorDecks.moveToNext());
             // moving our cursor to next.
         }
         // at last closing our cursor
         // and returning our array list.
         cursorDecks.close();
-        return deckModelArrayList;
+        return deckModalArrayList;
     }
 
-    // Return empty or not
+    /**
+     * Check if the table is empty.
+     * @param tableName name table
+     * @return boolean true or false
+     */
     public boolean checkTableEmpty(String tableName){
-
-        // on below line we are creating a
-        // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor mCursor = db.rawQuery("SELECT * FROM " + tableName, null);
         boolean rowExists;
-
         rowExists = mCursor.moveToFirst();
-
         mCursor.close();
-
         return rowExists;
     }
 
-    // Upgrade table
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.

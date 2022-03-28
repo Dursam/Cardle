@@ -1,4 +1,4 @@
-package com.application.cardle;
+package com.application.cardle.card;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,51 +6,65 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.application.cardle.R;
 import java.util.ArrayList;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.Viewholder> {
 
-    // variable for our array list and context
     private final Context context;
-    private final ArrayList<CardModel> CardList;
+    private final ArrayList<CardModal> CardList;
 
-    // Constructor
-    public CardAdapter(Context context, ArrayList<CardModel> CardList) {
+    /**
+     * Pattern Card Adapter : Represents the card modal adapter.
+     * @param context   name of activity context
+     * @param CardList  list of cards modal
+     */
+    public CardAdapter(Context context, ArrayList<CardModal> CardList) {
         this.context = context;
         this.CardList = CardList;
     }
 
+    /**
+     * To inflate the layout for each card item of viewpager2.
+     * @param parent    group of view parent
+     * @param viewType  view type
+     * @return          the layout for each card item
+     */
     @NonNull
     @Override
     public CardAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // to inflate the layout for each item of recycler view.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_modal, parent, false);
         return new Viewholder(view);
     }
 
+    /**
+     * To set data to textview of each card layout.
+     * @param holder    holder view of the card adapter
+     * @param position  position of the card
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CardAdapter.Viewholder holder, int position) {
-        // to set data to textview of each card layout
-        CardModel model = CardList.get(position);
+        CardModal model = CardList.get(position);
         holder.CardIdCardTV.setText(model.getIdCard().toString());
         holder.CardQuestionTV.setText(model.getQuestion());
         holder.CardResponseTV.setText(model.getResponse());
     }
 
+    /**
+     * Show the number of cards
+     * @return size of card list
+     */
     @Override
     public int getItemCount() {
-        // this method is used for showing number
-        // of card items in recycler view.
         return CardList.size();
     }
 
-    // View holder class for initializing of
-    // your views such as Imageview.
+    /**
+     * View holder class for initializing views
+     */
     public static class Viewholder extends RecyclerView.ViewHolder {
 
         private final TextView CardIdCardTV;

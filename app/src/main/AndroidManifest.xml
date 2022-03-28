@@ -10,16 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".EmptyDeck"
+            android:name=".card.CardCreate"
             android:exported="false" />
         <activity
-            android:name=".CreateCard"
+            android:name=".deck.DeckEmpty"
             android:exported="false" />
         <activity
-            android:name=".CreateDeck"
+            android:name=".deck.DeckCreate"
             android:exported="false" />
         <activity
-            android:name=".Menu"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
