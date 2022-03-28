@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -126,26 +127,18 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // on below line we are creating a cursor with query to read data from database.
-        Cursor mCursor = db.rawQuery("SELECT " + COLUMN_ID_DECK +
-                                         " FROM "  + TABLE_DECK +
-                                         " WHERE " + COLUMN_NAME_DECK +
-                                         " == '" + deckName + "'", null);
 
-        // on below line we are creating a new array list.
-        ArrayList<Integer> idDeck = new ArrayList<>();
+        // System.out.println(deckName);
 
-        if (mCursor.moveToFirst()) {
-            do {
-                // on below line we are adding the data from cursor to our array list.
-                idDeck.add(mCursor.getInt(0));
-            } while (mCursor.moveToNext());
-            // moving our cursor to next.
-        }
 
-        System.out.println(idDeck.get(0).intValue());
-        mCursor.close();
+        String [] projection = {COLUMN_ID_DECK};
+        String selection = COLUMN_NAME_DECK + " = ?";
+        String [] args = {String.valueOf(deckName)};
 
-        return idDeck.get(0);
+        Cursor mCursor = db.query(TABLE_DECK,projection,selection,args,null,null,null);
+
+        mCursor.moveToFirst();
+        return mCursor.getInt(0);
     }
 
     // Delete a card
@@ -162,8 +155,12 @@ public class DatabaseCardle extends SQLiteOpenHelper {
     // Replace a name deck
     public void replaceDeckName(String deckId,String deckName){
         SQLiteDatabase db = this.getWritableDatabase();
-        String sqlC = "REPLACE INTO Deck (id_deck,name_deck) VALUES (" + deckId + ",'" + deckName + "')";
-        db.execSQL(sqlC);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_ID_DECK,deckId);
+        contentValues.put(COLUMN_NAME_DECK,deckName);
+        db.replace(TABLE_DECK,null,contentValues);
+
         db.close();
     }
 
@@ -227,34 +224,6 @@ public class DatabaseCardle extends SQLiteOpenHelper {
         // and returning our array list.
         cursorDecks.close();
         return deckModelArrayList;
-    }
-
-    // Return all deck list
-    public Integer sizeTable(String nameTable) {
-
-        // on below line we are creating a
-        // database for reading our database.
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // on below line we are creating a cursor with query to read data from database.
-        Cursor cursorDecks = db.rawQuery("SELECT * FROM " + nameTable, null);
-
-        // on below line we are creating a new array list.
-        ArrayList<DeckModel> resArrayList = new ArrayList<>();
-
-        // moving our cursor to first position.
-        if (cursorDecks.moveToFirst()) {
-            do {
-                // on below line we are adding the data from cursor to our array list.
-                resArrayList.add(new DeckModel(cursorDecks.getString(1)));
-            } while (cursorDecks.moveToNext());
-            // moving our cursor to next.
-        }
-        // at last closing our cursor
-        // and returning our array list.
-        cursorDecks.close();
-
-        return resArrayList.size();
     }
 
     // Return empty or not

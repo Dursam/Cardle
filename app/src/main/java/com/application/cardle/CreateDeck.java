@@ -26,6 +26,7 @@ public class CreateDeck extends AppCompatActivity {
     // Updating data already
     ArrayList<CardModel> allCard;
     ArrayList<Integer> allIdCard;
+    ArrayList<CardModel> newCardFromAlready;
     String nameDeck;
 
     // Activity launcher and binding
@@ -42,6 +43,7 @@ public class CreateDeck extends AppCompatActivity {
                             question = data.getStringExtra("Question");
                             response = data.getStringExtra("Response");
                             VPCards.add(new CardModel(cntCards,question,response));
+                            newCardFromAlready.add(new CardModel(cntCards,question,response));
 
                             // Update numbers cards
                             for(int i = 0; i < VPCards.size(); i++){
@@ -76,6 +78,7 @@ public class CreateDeck extends AppCompatActivity {
 
         // create a new arraylist of card object
         VPCards = new ArrayList<>();
+        newCardFromAlready = new ArrayList<>();
 
         // recuperate Extra of cards (for empty activity)
         Bundle extras = getIntent().getExtras();
@@ -112,7 +115,7 @@ public class CreateDeck extends AppCompatActivity {
         delCard.setOnClickListener(v ->{
             // delete current card listener
             Toast.makeText(CreateDeck.this, "Card has been deleted", Toast.LENGTH_SHORT).show();
-            System.out.println(viewPager2Card.getCurrentItem());
+            // System.out.println(viewPager2Card.getCurrentItem());
             CardModel CardElm = VPCards.remove(viewPager2Card.getCurrentItem());
 
             if(activity.equals("already")){
@@ -141,42 +144,35 @@ public class CreateDeck extends AppCompatActivity {
             if (deckName.isEmpty()) {
                 Toast.makeText(CreateDeck.this, "Please enter a deck name", Toast.LENGTH_SHORT).show();
             }else {
-
                 if(activity.equals("empty")){
                     // add the deck
                     dbCardle.addNewDeck(deckName);
-                } else if(activity.equals("activity")){
-                    dbCardle.replaceDeckName(dbCardle.getIdDeck(deckName).toString(),editDeckName.getText().toString());
+                } else if(activity.equals("already")){
+                    dbCardle.replaceDeckName(dbCardle.getIdDeck(nameDeck).toString(),deckName);
                 }
 
                 // get id deck to put as foreign key to all cards
                 Integer idDeck = dbCardle.getIdDeck(deckName);
 
                 // Update VPCards and avoid a duplication data that already exist in database
-                if(activity.equals("already")){
-                    for (int i = 0; i < allCard.size()+1; i++){
-                        for (int j = 0; j < VPCards.size()+1; j++){
-                            if(allCard.get(i).getQuestion().equals(VPCards.get(j).getQuestion()) &&
-                                    allCard.get(i).getResponse().equals(VPCards.get(j).getResponse())){
-                                VPCards.remove(VPCards.get(j));
-                            }
-                        }
+                if(activity.equals("empty")){
+                    // add all cards
+                    for (int i = 0; i < VPCards.size(); i++){
+                        dbCardle.addNewCard(VPCards.get(i).getQuestion(),VPCards.get(i).getResponse(),idDeck);
                     }
-                }
-
-                // add all cards
-                for (int i = 0; i < VPCards.size(); i++){
-                    dbCardle.addNewCard(VPCards.get(i).getQuestion(),VPCards.get(i).getResponse(),idDeck);
+                } else if(activity.equals("already")){
+                    for (int i = 0; i < newCardFromAlready.size(); i++){
+                        dbCardle.addNewCard(newCardFromAlready.get(i).getQuestion(),newCardFromAlready.get(i).getResponse(),idDeck);
+                    }
                 }
 
                 // after adding the data we are displaying a toast message.
                 Toast.makeText(CreateDeck.this, "Deck has been added", Toast.LENGTH_SHORT).show();
                 editDeckName.setText("");
 
-                // opening a new activity via a intent.
+                // start new activity
                 Intent i = new Intent(CreateDeck.this, Menu.class);
                 startActivity(i);
-                finish();
             }
         });
     }
