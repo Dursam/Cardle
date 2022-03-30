@@ -40,7 +40,7 @@ public class DeckSelection extends AppCompatActivity {
         }
 
         // put all these data in viewpager2
-        DeckAdapter deckAdapter = new DeckAdapter(deckList, R.layout.deck_info);
+        DeckAdapter deckAdapter = new DeckAdapter(this,deckList, R.layout.deck_info);
         viewPager2Deck.setAdapter(deckAdapter);
 
         // viewpager2Deck listener when page changed

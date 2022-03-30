@@ -14,6 +14,7 @@
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable-anydpi/ic_action_course.xml" value="0.274" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable-anydpi/ic_action_delete.xml" value="0.162" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable-anydpi/ic_action_download.xml" value="0.147" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable-anydpi/ic_action_refuse.xml" value="0.1765" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable-anydpi/ic_action_settings.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable-anydpi/ic_action_validate.xml" value="0.162" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1225" />
@@ -28,6 +29,8 @@
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_download.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_download_off.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_download_on.xml" value="0.147" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_refuse_off.xml" value="0.1765" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_refuse_on.xml" value="0.1765" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_settings.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_settings_off.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/layer_settings_on.xml" value="0.147" />
@@ -37,6 +40,7 @@
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_create.xml" value="0.1335" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_delete.xml" value="0.162" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_download.xml" value="0.1335" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_refuse.xml" value="0.1765" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_settings.xml" value="0.147" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/drawable/round_button_validate.xml" value="0.162" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/card.xml" value="0.25" />
@@ -46,6 +50,7 @@
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/create_deck.xml" value="0.25" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck.xml" value="0.26927083333333335" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck_create.xml" value="0.21041666666666667" />
+        <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck_dialog.xml" value="0.14387633769322236" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck_empty.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck_info.xml" value="0.10885416666666667" />
         <entry key="..\:/Users/Samue/Desktop/M1-Info/2S/Projet_Android/Cardle/app/src/main/res/layout/deck_infos.xml" value="0.2552083333333333" />

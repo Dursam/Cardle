@@ -1,27 +1,34 @@
 package com.application.cardle.deck;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.application.cardle.DataBase;
+import com.application.cardle.MainActivity;
 import com.application.cardle.R;
-
 import java.util.ArrayList;
 
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
 
     private final ArrayList<DeckModal> DeckList;
     private final int layoutModal;
+    private final Context context;
 
     /**
      * Pattern Deck Adapter : Represents the deck modal adapter.
      * @param DeckList  list of decks modal
      */
-    public DeckAdapter(ArrayList<DeckModal> DeckList, int layoutModal) {
+    public DeckAdapter(Context context,ArrayList<DeckModal> DeckList, int layoutModal) {
+        this.context = context;
         this.DeckList = DeckList;
         this.layoutModal = layoutModal;
     }
@@ -72,13 +79,37 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
             // start the activity of already existing deck of card(s)
             // it's used for editing
             itemView.setOnClickListener(v -> {
-
                 if(layoutModal == R.layout.deck_modal){
                     Intent i = new Intent(itemView.getContext(), DeckCreate.class);
                     i.putExtra("activity","already");
                     i.putExtra("deck",deckNameTV.getText());
                     itemView.getContext().startActivity(i);
                 }
+            });
+
+            // open a dialog to give the choice to delete the deck
+            itemView.setOnLongClickListener(w -> {
+                final Dialog dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.deck_dialog);
+
+                final Button buttonYes = dialog.findViewById(R.id.buttonYes);
+                final Button buttonNo = dialog.findViewById(R.id.buttonNo);
+
+                // button no listener : deny
+                buttonNo.setOnClickListener(v -> dialog.dismiss());
+
+                // button yes listener : delete deck + cards
+                buttonYes.setOnClickListener(v ->{
+                    DataBase dbCardle = new DataBase(context);
+                    dbCardle.delAllCard(deckNameTV.getText().toString());
+                    dialog.dismiss();
+                    Intent i = new Intent(itemView.getContext(), MainActivity.class);
+                    context.startActivity(i);
+                });
+                dialog.show();
+                return true;
             });
         }
     }

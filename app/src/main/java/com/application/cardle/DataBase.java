@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DataBase extends SQLiteOpenHelper {
 
     // Database Name
-    private static final String DATABASE_NAME = "TestDB";
+    private static final String DATABASE_NAME = "DataDB";
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -151,6 +151,11 @@ public class DataBase extends SQLiteOpenHelper {
         return res;
     }
 
+    /**
+     * Get number of cards in deck
+     * @param deckName deck name
+     * @return cards number
+     */
     public Integer getNbCard(String deckName){
         SQLiteDatabase db = this.getReadableDatabase();
         String [] projection = {COLUMN_ID_CARD};
@@ -163,14 +168,23 @@ public class DataBase extends SQLiteOpenHelper {
         return res;
     }
 
-
     /**
      * Delete the card in database.
+     * @param cardId id card
+     */
+    public void delCard(String cardId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CARD, COLUMN_ID_CARD + "=" + cardId, null);
+        db.close();
+    }
+
+    /**
+     * Delete the card with id deck foreign key
      * @param deckId id deck
      */
-    public void delCard(String deckId){
+    public void delCardwhichDeck(String deckId){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CARD, COLUMN_ID_CARD + "=" + deckId, null);
+        db.delete(TABLE_CARD, COLUMN_ID_DECK + "=" + deckId, null);
         db.close();
     }
 
@@ -183,6 +197,17 @@ public class DataBase extends SQLiteOpenHelper {
         boolean res = db.delete(TABLE_DECK, COLUMN_NAME_DECK + "=?",new String[]{deckName}) > 0;
         db.close();
         return res;
+    }
+
+    /**
+     * Delete the deck and his cards
+     * @param deckName deck name
+     */
+    public void delAllCard(String deckName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        delCardwhichDeck(getIdDeck(deckName).toString());
+        delDeck(deckName);
+        db.close();
     }
 
     /**

@@ -120,7 +120,23 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         // we are initializing our adapter class and passing our arraylist to it.
-        DeckAdapter DeckAdapter = new DeckAdapter(dbCardle.readDecks(), R.layout.deck_modal);
+        DeckAdapter DeckAdapter = new DeckAdapter(this,dbCardle.readDecks(), R.layout.deck_modal);
+
+        // below line is for setting a layout manager for our recycler view.
+        // here we are creating vertical list so we will provide orientation as vertical
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        // in below two lines we are setting layoutmanager and adapter to our recycler view.
+        deckRV.setLayoutManager(linearLayoutManager);
+        deckRV.setAdapter(DeckAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // we are initializing our adapter class and passing our arraylist to it.
+        DeckAdapter DeckAdapter = new DeckAdapter(this,dbCardle.readDecks(), R.layout.deck_modal);
 
         // below line is for setting a layout manager for our recycler view.
         // here we are creating vertical list so we will provide orientation as vertical
