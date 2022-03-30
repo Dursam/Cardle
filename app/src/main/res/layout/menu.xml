@@ -29,13 +29,13 @@
         app:layout_constraintTop_toBottomOf="@+id/Deck" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/ButtonDownload"
+        android:id="@+id/ButtonCourse"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/round_button_course"
-        android:contentDescription="@string/button_desc_download"
+        android:contentDescription="@string/button_desc_course"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ButtonCreate" />
 

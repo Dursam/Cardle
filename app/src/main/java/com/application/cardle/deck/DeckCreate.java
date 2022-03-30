@@ -33,8 +33,9 @@ public class DeckCreate extends AppCompatActivity {
     ArrayList<Integer> allIdCard;
     ArrayList<CardModal> allCard, newCardFromAlready;
 
-    // component for deck and cards creating
-    String question, response, nameDeck ;
+    // component for deck and cards creating/deleting
+    String question, response, nameDeck;
+    CardModal CardElm;
 
     // cards counter
     Integer cntCards = 1;
@@ -136,19 +137,25 @@ public class DeckCreate extends AppCompatActivity {
         delCard.setOnClickListener(v ->{
             // delete current card listener
             Toast.makeText(DeckCreate.this, "Card has been deleted", Toast.LENGTH_SHORT).show();
-            CardModal CardElm = VPCards.remove(viewPager2Card.getCurrentItem());
-            if(activity.equals("already")){
-                dbCardle.delCard(allIdCard.get(CardElm.getIdCard()-1).toString());
+
+            if(cntCards != 1){
+                CardElm = VPCards.remove(viewPager2Card.getCurrentItem());
+                if(activity.equals("already") && allIdCard.size() > 0){
+                    dbCardle.delCard(allIdCard.get(CardElm.getIdCard()-1).toString());
+                }
+                // update numbers cards
+                for(int i = 0; i < VPCards.size(); i++){
+                    VPCards.get(i).setId_card(i+1);
+                }
+                // refresh viewpager2
+                viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
+                cntCards--;
             }
-            // update numbers cards
-            for(int i = 0; i < VPCards.size(); i++){
-                VPCards.get(i).setId_card(i+1);
-            }
-            // refresh viewpager2
-            viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
-            cntCards--;
             // go back to the previous activity if 0 card in the deck
+            System.out.println(cntCards);
             if(cntCards == 1){
+                if(dbCardle.delDeck(nameDeck))
+                    Toast.makeText(DeckCreate.this, "Deck has been deleted", Toast.LENGTH_SHORT).show();
                 DeckCreate.super.onBackPressed();
             }
         });

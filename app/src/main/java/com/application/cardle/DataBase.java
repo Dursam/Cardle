@@ -146,8 +146,23 @@ public class DataBase extends SQLiteOpenHelper {
         String [] args = {String.valueOf(deckName)};
         Cursor mCursor = db.query(TABLE_DECK,projection,selection,args,null,null,null);
         mCursor.moveToFirst();
-        return mCursor.getInt(0);
+        Integer res = mCursor.getInt(0);
+        mCursor.close();
+        return res;
     }
+
+    public Integer getNbCard(String deckName){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String [] projection = {COLUMN_ID_CARD};
+        String selection = COLUMN_ID_DECK + " = ?";
+        String [] args = {String.valueOf(getIdDeck(deckName))};
+        Cursor mCursor = db.query(TABLE_CARD,projection,selection,args,null,null,null);
+        mCursor.moveToFirst();
+        Integer res = mCursor.getCount();
+        mCursor.close();
+        return res;
+    }
+
 
     /**
      * Delete the card in database.
@@ -157,6 +172,17 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CARD, COLUMN_ID_CARD + "=" + deckId, null);
         db.close();
+    }
+
+    /**
+     * Delete the deck in database.
+     * @param deckName id deck
+     */
+    public boolean delDeck(String deckName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean res = db.delete(TABLE_DECK, COLUMN_NAME_DECK + "=?",new String[]{deckName}) > 0;
+        db.close();
+        return res;
     }
 
     /**

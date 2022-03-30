@@ -10,6 +10,8 @@ import com.application.cardle.card.CardModal;
 import com.application.cardle.deck.DeckAdapter;
 import com.application.cardle.deck.DeckModal;
 import com.application.cardle.deck.DeckEmpty;
+import com.application.cardle.deck.DeckSelection;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,17 +20,21 @@ public class MainActivity extends AppCompatActivity {
      * Activity of deck and cards creating
      */
 
+    RecyclerView deckRV;
+    DataBase dbCardle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
         // get all the components id from menu
-        RecyclerView deckRV = findViewById(R.id.Deck);
+        deckRV = findViewById(R.id.Deck);
         Button createDeck = findViewById(R.id.ButtonCreate);
+        Button courseDeck = findViewById(R.id.ButtonCourse);
 
         // creating a new database class and passing our context to it
-        DataBase dbCardle = new DataBase(MainActivity.this);
+        dbCardle = new DataBase(MainActivity.this);
 
         // Uncomment for reset database
         //dbCardle.reset();
@@ -90,17 +96,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // we are initializing our adapter class and passing our arraylist to it.
-        DeckAdapter DeckAdapter = new DeckAdapter(this, dbCardle.readDecks());
-
-        // below line is for setting a layout manager for our recycler view.
-        // here we are creating vertical list so we will provide orientation as vertical
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
-        deckRV.setLayoutManager(linearLayoutManager);
-        deckRV.setAdapter(DeckAdapter);
-
         // card creating listener
         createDeck.setOnClickListener(v -> {
             // opening a new activity via a intent.
@@ -109,9 +104,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // course listener
+        courseDeck.setOnClickListener(v -> {
+            // opening a new activity via a intent.
+            Intent i = new Intent(MainActivity.this, DeckSelection.class);
+            startActivity(i);
+        });
 
         // calendar listener
 
         // settings listener
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // we are initializing our adapter class and passing our arraylist to it.
+        DeckAdapter DeckAdapter = new DeckAdapter(dbCardle.readDecks(), R.layout.deck_modal);
+
+        // below line is for setting a layout manager for our recycler view.
+        // here we are creating vertical list so we will provide orientation as vertical
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        // in below two lines we are setting layoutmanager and adapter to our recycler view.
+        deckRV.setLayoutManager(linearLayoutManager);
+        deckRV.setAdapter(DeckAdapter);
     }
 }

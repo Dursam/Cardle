@@ -1,7 +1,6 @@
 package com.application.cardle.deck;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.application.cardle.R;
+
 import java.util.ArrayList;
 
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
 
-    private final Context context;
     private final ArrayList<DeckModal> DeckList;
+    private final int layoutModal;
 
     /**
      * Pattern Deck Adapter : Represents the deck modal adapter.
-     * @param context   name of activity context
      * @param DeckList  list of decks modal
      */
-    public DeckAdapter(Context context, ArrayList<DeckModal> DeckList) {
-        this.context = context;
+    public DeckAdapter(ArrayList<DeckModal> DeckList, int layoutModal) {
         this.DeckList = DeckList;
+        this.layoutModal = layoutModal;
     }
 
     /**
@@ -36,7 +35,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
     @NonNull
     @Override
     public DeckAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.deck_modal, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutModal, parent, false);
         return new Viewholder(view);
     }
 
@@ -62,7 +61,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
     /**
      * View holder class for initializing views
      */
-    public static class Viewholder extends RecyclerView.ViewHolder {
+    public class Viewholder extends RecyclerView.ViewHolder {
 
         private final TextView deckNameTV;
 
@@ -73,10 +72,13 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
             // start the activity of already existing deck of card(s)
             // it's used for editing
             itemView.setOnClickListener(v -> {
-                Intent i = new Intent(itemView.getContext(), DeckCreate.class);
-                i.putExtra("activity","already");
-                i.putExtra("deck",deckNameTV.getText());
-                itemView.getContext().startActivity(i);
+
+                if(layoutModal == R.layout.deck_modal){
+                    Intent i = new Intent(itemView.getContext(), DeckCreate.class);
+                    i.putExtra("activity","already");
+                    i.putExtra("deck",deckNameTV.getText());
+                    itemView.getContext().startActivity(i);
+                }
             });
         }
     }
