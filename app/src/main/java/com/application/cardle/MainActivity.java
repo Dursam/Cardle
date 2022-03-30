@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         deckRV = findViewById(R.id.Deck);
         Button createDeck = findViewById(R.id.ButtonCreate);
         Button courseDeck = findViewById(R.id.ButtonCourse);
+        Button calendarDeck = findViewById(R.id.ButtonCalendar);
+
 
         // creating a new database class and passing our context to it
         dbCardle = new DataBase(MainActivity.this);
@@ -111,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // calendar listener
+        calendarDeck.setOnClickListener(v -> {
+            // opening a new activity via a intent.
+            Intent i = new Intent(MainActivity.this, CourseActivity.class);
+            startActivity(i);
+        });
+
 
         // settings listener
     }
