@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.application.cardle.DataBase;
 import com.application.cardle.MainActivity;
 import com.application.cardle.R;
+import com.application.cardle.course.CourseActivity;
+
 import java.util.ArrayList;
 
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
@@ -82,6 +84,11 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.Viewholder> {
                 if(layoutModal == R.layout.deck_modal){
                     Intent i = new Intent(itemView.getContext(), DeckCreate.class);
                     i.putExtra("activity","already");
+                    i.putExtra("deck",deckNameTV.getText());
+                    itemView.getContext().startActivity(i);
+                } else if(layoutModal == R.layout.deck_info){
+                    Intent i = new Intent(itemView.getContext(), CourseActivity.class);
+                    i.putExtra("activity","course");
                     i.putExtra("deck",deckNameTV.getText());
                     itemView.getContext().startActivity(i);
                 }

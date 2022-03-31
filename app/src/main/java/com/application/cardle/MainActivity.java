@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.application.cardle.card.CardModal;
+import com.application.cardle.course.CourseActivity;
 import com.application.cardle.deck.DeckAdapter;
 import com.application.cardle.deck.DeckModal;
 import com.application.cardle.deck.DeckEmpty;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         Button createDeck = findViewById(R.id.ButtonCreate);
         Button courseDeck = findViewById(R.id.ButtonCourse);
         Button calendarDeck = findViewById(R.id.ButtonCalendar);
-
 
         // creating a new database class and passing our context to it
         dbCardle = new DataBase(MainActivity.this);
@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         // calendar listener
         calendarDeck.setOnClickListener(v -> {
             // opening a new activity via a intent.
-            Intent i = new Intent(MainActivity.this, CourseActivity.class);
-            startActivity(i);
+            //Intent i = new Intent(MainActivity.this, CourseActivity.class);
+            //startActivity(i);
         });
 
 
@@ -126,22 +126,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // we are initializing our adapter class and passing our arraylist to it.
-        DeckAdapter DeckAdapter = new DeckAdapter(this,dbCardle.readDecks(), R.layout.deck_modal);
-
-        // below line is for setting a layout manager for our recycler view.
-        // here we are creating vertical list so we will provide orientation as vertical
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
-        deckRV.setLayoutManager(linearLayoutManager);
-        deckRV.setAdapter(DeckAdapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         // we are initializing our adapter class and passing our arraylist to it.
         DeckAdapter DeckAdapter = new DeckAdapter(this,dbCardle.readDecks(), R.layout.deck_modal);

@@ -19,7 +19,7 @@
             android:name=".deck.DeckCreate"
             android:exported="false" />
         <activity
-            android:name=".CourseActivity"
+            android:name=".course.CourseActivity"
             android:exported="false" />
         <activity
             android:name=".deck.DeckSelection"

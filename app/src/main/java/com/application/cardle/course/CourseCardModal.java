@@ -1,24 +1,13 @@
-package com.application.cardle;
+package com.application.cardle.course;
 
 import android.os.Build;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.RequiresApi;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import kotlin.Metadata;
 import kotlin.jvm.internal.Intrinsics;
 
-@Metadata(
-        mv = {1, 1, 18},
-        bv = {1, 0, 3},
-        k = 1,
-        d1 = {"\u0000 \n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\b\n\u0002\b\u000f\n\u0002\u0010\u000b\n\u0002\b\u0004\b\u0086\b\u0018\u00002\u00020\u0001B'\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0005\u0012\u0006\u0010\u0006\u001a\u00020\u0003\u0012\b\b\u0001\u0010\u0007\u001a\u00020\u0005¢\u0006\u0002\u0010\bJ\t\u0010\u000f\u001a\u00020\u0003HÆ\u0003J\t\u0010\u0010\u001a\u00020\u0005HÆ\u0003J\t\u0010\u0011\u001a\u00020\u0003HÆ\u0003J\t\u0010\u0012\u001a\u00020\u0005HÆ\u0003J1\u0010\u0013\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u00052\b\b\u0002\u0010\u0006\u001a\u00020\u00032\b\b\u0003\u0010\u0007\u001a\u00020\u0005HÆ\u0001J\u0013\u0010\u0014\u001a\u00020\u00152\b\u0010\u0016\u001a\u0004\u0018\u00010\u0001HÖ\u0003J\t\u0010\u0017\u001a\u00020\u0005HÖ\u0001J\t\u0010\u0018\u001a\u00020\u0003HÖ\u0001R\u0011\u0010\u0004\u001a\u00020\u0005¢\u0006\b\n\u0000\u001a\u0004\b\t\u0010\nR\u0011\u0010\u0007\u001a\u00020\u0005¢\u0006\b\n\u0000\u001a\u0004\b\u000b\u0010\nR\u0011\u0010\u0006\u001a\u00020\u0003¢\u0006\b\n\u0000\u001a\u0004\b\f\u0010\rR\u0011\u0010\u0002\u001a\u00020\u0003¢\u0006\b\n\u0000\u001a\u0004\b\u000e\u0010\r¨\u0006\u0019"},
-        d2 = {"Lcom/rodrigodominguez/tindermotionlayout/scenes/TinderContactCardModel;", "", "name", "", "age", "", "description", "backgroundColor", "(Ljava/lang/String;ILjava/lang/String;I)V", "getAge", "()I", "getBackgroundColor", "getDescription", "()Ljava/lang/String;", "getName", "component1", "component2", "component3", "component4", "copy", "equals", "", "other", "hashCode", "toString", "app_debug"}
-)
-public final class TinderContactCardModel {
+public final class CourseCardModal {
     @NotNull
     private final String name;
     private final int age;
@@ -44,7 +33,7 @@ public final class TinderContactCardModel {
         return this.backgroundColor;
     }
 
-    public TinderContactCardModel(@NotNull String name, int age, @NotNull String description, @ColorInt int backgroundColor) {
+    public CourseCardModal(@NotNull String name, int age, @NotNull String description, @ColorInt int backgroundColor) {
         Intrinsics.checkParameterIsNotNull(name, "name");
         Intrinsics.checkParameterIsNotNull(description, "description");
         //super();
@@ -73,14 +62,14 @@ public final class TinderContactCardModel {
     }
 
     @NotNull
-    public final TinderContactCardModel copy(@NotNull String name, int age, @NotNull String description, @ColorInt int backgroundColor) {
+    public final CourseCardModal copy(@NotNull String name, int age, @NotNull String description, @ColorInt int backgroundColor) {
         Intrinsics.checkParameterIsNotNull(name, "name");
         Intrinsics.checkParameterIsNotNull(description, "description");
-        return new TinderContactCardModel(name, age, description, backgroundColor);
+        return new CourseCardModal(name, age, description, backgroundColor);
     }
 
     // $FF: synthetic method
-    public static TinderContactCardModel copy$default(TinderContactCardModel var0, String var1, int var2, String var3, int var4, int var5, Object var6) {
+    public static CourseCardModal copy$default(CourseCardModal var0, String var1, int var2, String var3, int var4, int var5, Object var6) {
         if ((var5 & 1) != 0) {
             var1 = var0.name;
         }
@@ -102,7 +91,7 @@ public final class TinderContactCardModel {
 
     @NotNull
     public String toString() {
-        return "TinderContactCardModel(name=" + this.name + ", age=" + this.age + ", description=" + this.description + ", backgroundColor=" + this.backgroundColor + ")";
+        return "CourseCardModel(name=" + this.name + ", age=" + this.age + ", description=" + this.description + ", backgroundColor=" + this.backgroundColor + ")";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -115,8 +104,8 @@ public final class TinderContactCardModel {
 
     public boolean equals(@Nullable Object var1) {
         if (this != var1) {
-            if (var1 instanceof TinderContactCardModel) {
-                TinderContactCardModel var2 = (TinderContactCardModel)var1;
+            if (var1 instanceof CourseCardModal) {
+                CourseCardModal var2 = (CourseCardModal)var1;
                 if (Intrinsics.areEqual(this.name, var2.name) && this.age == var2.age && Intrinsics.areEqual(this.description, var2.description) && this.backgroundColor == var2.backgroundColor) {
                     return true;
                 }

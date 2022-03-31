@@ -1,55 +1,68 @@
-package com.application.cardle;
-
+package com.application.cardle.course;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener;
 import androidx.constraintlayout.motion.widget.TransitionAdapter;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
-
+import androidx.lifecycle.ViewModelProvider;
+import com.application.cardle.DataBase;
+import com.application.cardle.R;
 import com.application.cardle.R.id;
+import com.application.cardle.card.CardModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.HashMap;
-
 import kotlin.jvm.internal.Intrinsics;
 
-
 public final class CourseActivity extends AppCompatActivity {
+
+    // compnent for ViewModel
     private HashMap _$_findViewCache;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.course_training);
-        ViewModel var10000 = ViewModelProviders.of((FragmentActivity)this).get(TinderContactViewModel.class);
-        Intrinsics.checkExpressionValueIsNotNull(var10000, "ViewModelProviders\n     …actViewModel::class.java)");
-        final TinderContactViewModel viewModel = (TinderContactViewModel)var10000;
-        //viewModel.loadCards();
+
+        // get the previous activity
+        Bundle extras = getIntent().getExtras();
+        String deckName = extras.getString("deck");
+
+        // creating a new database class and passing our context to it
+        DataBase dbCardle = new DataBase(CourseActivity.this);
+
+        // pick all the cards in deck
+        ArrayList<CardModal> cardList = dbCardle.readCards(dbCardle.getIdDeck(deckName).toString());
+
+        // get our viewmodal
+        ViewModel mainViewM = new ViewModelProvider(this).get(CourseViewModal.class);
+        Intrinsics.checkExpressionValueIsNotNull(mainViewM, "ViewModelProviders\n     …actViewModel::class.java)");
+        final CourseViewModal viewModel = (CourseViewModal) mainViewM;
+
+        // need a view table for the class CourseViewModal to get these data
+        // dbCardle.createView(deckName);
+
+
         viewModel.getModelStream().observe((LifecycleOwner)this, (Observer)(new Observer() {
-            // $FF: synthetic method
-            // $FF: bridge method
             public void onChanged(Object var1) {
-                this.onChanged((TinderContactModel)var1);
+                this.onChanged((CourseModal)var1);
             }
 
-            public final void onChanged(TinderContactModel it) {
-                CourseActivity var10000 = CourseActivity.this;
+            public final void onChanged(CourseModal it) {
+                CourseActivity mainViewM = CourseActivity.this;
                 Intrinsics.checkExpressionValueIsNotNull(it, "it");
-                var10000.bindCard(it);
+                mainViewM.bindCard(it);
             }
         }));
+
         ((MotionLayout)this._$_findCachedViewById(id.motionLayout)).setTransitionListener((TransitionListener)(new TransitionAdapter() {
             public void onTransitionCompleted(@NotNull MotionLayout motionLayout, int currentId) {
                 Intrinsics.checkParameterIsNotNull(motionLayout, "motionLayout");
@@ -63,26 +76,18 @@ public final class CourseActivity extends AppCompatActivity {
                 }
             }
         }));
-        ((FloatingActionButton)this._$_findCachedViewById(id.likeFloating)).setOnClickListener((OnClickListener)(new OnClickListener() {
-            public final void onClick(View it) {
-                ((MotionLayout) CourseActivity.this._$_findCachedViewById(id.motionLayout)).transitionToState(R.id.like);
-            }
-        }));
-        ((FloatingActionButton)this._$_findCachedViewById(id.unlikeFloating)).setOnClickListener((OnClickListener)(new OnClickListener() {
-            public final void onClick(View it) {
-                ((MotionLayout) CourseActivity.this._$_findCachedViewById(id.motionLayout)).transitionToState(R.id.unlike);
-            }
-        }));
+        ((FloatingActionButton)this._$_findCachedViewById(id.likeFloating)).setOnClickListener((OnClickListener)(it -> ((MotionLayout) CourseActivity.this._$_findCachedViewById(id.motionLayout)).transitionToState(id.like)));
+        ((FloatingActionButton)this._$_findCachedViewById(id.unlikeFloating)).setOnClickListener((OnClickListener)(it -> ((MotionLayout) CourseActivity.this._$_findCachedViewById(id.motionLayout)).transitionToState(id.unlike)));
     }
 
-    private final void bindCard(TinderContactModel model) {
+    private void bindCard(CourseModal model) {
         ((ConstraintLayout)this._$_findCachedViewById(id.containerCardOne)).setBackgroundColor(model.getCardTop().getBackgroundColor());
-        TextView var10000 = (TextView)this._$_findCachedViewById(id.name);
-        Intrinsics.checkExpressionValueIsNotNull(var10000, "name");
-        var10000.setText((CharSequence)(model.getCardTop().getName() + ", " + model.getCardTop().getAge()));
-        var10000 = (TextView)this._$_findCachedViewById(id.description);
-        Intrinsics.checkExpressionValueIsNotNull(var10000, "description");
-        var10000.setText((CharSequence)model.getCardTop().getDescription());
+        TextView mainViewM = (TextView)this._$_findCachedViewById(id.name);
+        Intrinsics.checkExpressionValueIsNotNull(mainViewM, "name");
+        mainViewM.setText((CharSequence)(model.getCardTop().getName() + ", " + model.getCardTop().getAge()));
+        mainViewM = (TextView)this._$_findCachedViewById(id.description);
+        Intrinsics.checkExpressionValueIsNotNull(mainViewM, "description");
+        mainViewM.setText((CharSequence)model.getCardTop().getDescription());
         ((ConstraintLayout)this._$_findCachedViewById(id.containerCardTwo)).setBackgroundColor(model.getCardBottom().getBackgroundColor());
     }
 
@@ -90,13 +95,11 @@ public final class CourseActivity extends AppCompatActivity {
         if (this._$_findViewCache == null) {
             this._$_findViewCache = new HashMap();
         }
-
         View var2 = (View)this._$_findViewCache.get(var1);
         if (var2 == null) {
             var2 = this.findViewById(var1);
             this._$_findViewCache.put(var1, var2);
         }
-
         return var2;
     }
 
@@ -104,6 +107,5 @@ public final class CourseActivity extends AppCompatActivity {
         if (this._$_findViewCache != null) {
             this._$_findViewCache.clear();
         }
-
     }
 }

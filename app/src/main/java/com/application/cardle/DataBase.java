@@ -23,14 +23,19 @@ public class DataBase extends SQLiteOpenHelper {
 
     // CARD
     private static final String TABLE_CARD = "Card";
-    private static final String COLUMN_ID_CARD ="id_card";
-    private static final String COLUMN_QUESTION ="question";
-    private static final String COLUMN_RESPONSE ="response";
+    private static final String COLUMN_ID_CARD = "id_card";
+    private static final String COLUMN_QUESTION = "question";
+    private static final String COLUMN_RESPONSE = "response";
 
     // DECK
     private static final String TABLE_DECK = "Deck";
-    private static final String COLUMN_ID_DECK ="id_deck";
-    private static final String COLUMN_NAME_DECK ="name_deck";
+    private static final String COLUMN_ID_DECK = "id_deck";
+    private static final String COLUMN_NAME_DECK = "name_deck";
+
+    // COURSE
+    private static final String TABLE_COURSE = "Course";
+    private static final String COLUMN_ID_COURSE = "id_course";
+    private static final String COLUMN_PROGRESSION = "progression";
 
     /**
      * Constructor DataBase : the database of Cardle app
@@ -57,11 +62,16 @@ public class DataBase extends SQLiteOpenHelper {
                             + COLUMN_QUESTION + " TEXT, "
                             + COLUMN_RESPONSE + " TEXT, "
                             + COLUMN_ID_DECK  + " INTEGER)";
+        // Table course
+        String course = "CREATE TABLE " + TABLE_COURSE + " ("
+                            + COLUMN_ID_COURSE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            + COLUMN_PROGRESSION + " INTEGER)";
 
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(deck);
         db.execSQL(card);
+        db.execSQL(course);
     }
 
     /**
@@ -71,6 +81,7 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DECK, null, null);
         db.delete(TABLE_CARD, null, null);
+        db.delete(TABLE_COURSE, null, null);
         db.close();
     }
 
@@ -135,6 +146,75 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     /**
+     * Create a view for CourseViewModal with deck selection
+     * @param deckName deck name
+     */
+    public void createView(String deckName){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String cmd = "CREATE VIEW course_training AS SELECT question,response FROM Card WHERE i_deck = "
+                     + getIdDeck(deckName).toString();
+        db.execSQL(cmd);
+        db.close();
+    }
+
+    /**
+     * Get all questions from the View
+     * @return list of questions
+     */
+    public ArrayList<String> getQuestionView(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.rawQuery("SELECT question FROM course_training", null);
+        mCursor.moveToFirst();
+        // on below line we are creating a new array list.
+        ArrayList<String> cmd = new ArrayList<>();
+
+        // moving our cursor to first position.
+        if (mCursor.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                cmd.add(mCursor.getString(0));
+            } while (mCursor.moveToNext());
+            // moving our cursor to next.
+        }
+        mCursor.close();
+        return cmd;
+    }
+
+    /**
+     * Get all responses from the View
+     * @return list of responses
+     */
+    public ArrayList<String> getResponseView(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.rawQuery("SELECT response FROM course_training", null);
+        mCursor.moveToFirst();
+        // on below line we are creating a new array list.
+        ArrayList<String> cmd = new ArrayList<>();
+
+        // moving our cursor to first position.
+        if (mCursor.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                cmd.add(mCursor.getString(0));
+            } while (mCursor.moveToNext());
+            // moving our cursor to next.
+        }
+        mCursor.close();
+        return cmd;
+    }
+
+    /**
+     * Delete current view of course training
+     */
+    public void delView(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String cmd = "DROP VIEW course_training";
+        db.execSQL(cmd);
+        db.close();
+    }
+
+    /**
      * Get the id deck.
      * @param deckName deck name
      * @return identification deck
@@ -182,7 +262,7 @@ public class DataBase extends SQLiteOpenHelper {
      * Delete the card with id deck foreign key
      * @param deckId id deck
      */
-    public void delCardwhichDeck(String deckId){
+    public void delCardWhichDeck(String deckId){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CARD, COLUMN_ID_DECK + "=" + deckId, null);
         db.close();
@@ -205,7 +285,7 @@ public class DataBase extends SQLiteOpenHelper {
      */
     public void delAllCard(String deckName){
         SQLiteDatabase db = this.getWritableDatabase();
-        delCardwhichDeck(getIdDeck(deckName).toString());
+        delCardWhichDeck(getIdDeck(deckName).toString());
         delDeck(deckName);
         db.close();
     }
@@ -309,6 +389,7 @@ public class DataBase extends SQLiteOpenHelper {
         // this method is called to check if the table exists already.
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DECK);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CARD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE);
         onCreate(db);
     }
 }

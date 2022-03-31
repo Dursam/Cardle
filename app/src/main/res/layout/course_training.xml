@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/course_scene"
-    tools:context=".CourseActivity">
+    tools:context=".course.CourseActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardTwo"
@@ -27,7 +27,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardOne"
