@@ -62,11 +62,11 @@ public class DeckCreate extends AppCompatActivity {
 
                             // update numbers cards
                             for(int i = 0; i < VPCards.size(); i++){
-                                VPCards.get(i).setId_card(i+1);
+                                VPCards.get(i).setIdCard(i+1);
                             }
 
                             // refresh the viewpager2 and counter
-                            viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
+                            viewPager2Card.setAdapter(new CardAdapter(VPCards));
                             viewPager2Card.setCurrentItem(cntCards, true);
                             cntCards++;
                         }
@@ -115,7 +115,7 @@ public class DeckCreate extends AppCompatActivity {
             allIdCard = new ArrayList<>();
             for (int i = 0; i < allCard.size(); i++){
                 allIdCard.add(allCard.get(i).getIdCard());
-                allCard.get(i).setId_card(i+1);
+                allCard.get(i).setIdCard(i+1);
             }
             editDeckName.setText(nameDeck);
             VPCards = allCard;
@@ -123,7 +123,7 @@ public class DeckCreate extends AppCompatActivity {
         }
 
         // refresh viewpager2
-        viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
+        viewPager2Card.setAdapter(new CardAdapter(VPCards));
 
         // card creating listener
         addCard.setOnClickListener(v -> {
@@ -145,10 +145,10 @@ public class DeckCreate extends AppCompatActivity {
                 }
                 // update numbers cards
                 for(int i = 0; i < VPCards.size(); i++){
-                    VPCards.get(i).setId_card(i+1);
+                    VPCards.get(i).setIdCard(i+1);
                 }
                 // refresh viewpager2
-                viewPager2Card.setAdapter(new CardAdapter(DeckCreate.this,VPCards));
+                viewPager2Card.setAdapter(new CardAdapter(VPCards));
                 cntCards--;
             }
             // go back to the previous activity if 0 card in the deck

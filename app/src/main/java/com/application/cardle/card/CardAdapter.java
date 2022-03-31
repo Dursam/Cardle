@@ -1,7 +1,6 @@
 package com.application.cardle.card;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,13 @@ import java.util.ArrayList;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.Viewholder> {
 
-    private final Context context;
     private final ArrayList<CardModal> CardList;
 
     /**
      * Pattern Card Adapter : Represents the card modal adapter.
-     * @param context   name of activity context
      * @param CardList  list of cards modal
      */
-    public CardAdapter(Context context, ArrayList<CardModal> CardList) {
-        this.context = context;
+    public CardAdapter(ArrayList<CardModal> CardList) {
         this.CardList = CardList;
     }
 

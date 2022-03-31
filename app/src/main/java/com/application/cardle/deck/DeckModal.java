@@ -2,7 +2,7 @@ package com.application.cardle.deck;
 
 public class DeckModal {
 
-    private String deckName;
+    private final String deckName;
 
     /**
      * Constructor DeckModal : Represents the deck modal.
@@ -18,13 +18,5 @@ public class DeckModal {
      */
     public String getDeckName() {
         return this.deckName;
-    }
-
-    /**
-     * Set a new name of the deck.
-     * @param deckName deck name
-     */
-    public void setDeckName(String deckName) {
-        this.deckName = deckName;
     }
 }

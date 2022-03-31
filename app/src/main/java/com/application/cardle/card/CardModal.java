@@ -29,7 +29,7 @@ public class CardModal {
      * Set a new identification of the card.
      * @param id_card identification
      */
-    public void setId_card(Integer id_card) {
+    public void setIdCard(Integer id_card) {
         this.id_card = id_card;
     }
 
@@ -42,26 +42,10 @@ public class CardModal {
     }
 
     /**
-     * Set a new question of the card.
-     * @param question question
-     */
-    public void setQuestionName(String question) {
-        this.question = question;
-    }
-
-    /**
      * Get the response card.
      * @return response
      */
     public String getResponse() {
         return response;
-    }
-
-    /**
-     * Set a new response of the card.
-     * @param response response
-     */
-    public void setResponseName(String response) {
-        this.response = response;
     }
 }

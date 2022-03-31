@@ -56,13 +56,13 @@ public class DataBase extends SQLiteOpenHelper {
         String deck = "CREATE TABLE " + TABLE_DECK + " ("
                             + COLUMN_ID_DECK + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
                             + COLUMN_NAME_DECK + " TEXT)";
-        // Table card
+        // Table card (didn't put id_deck as foreign key cause avoid sensitive crash problems)
         String card = "CREATE TABLE " + TABLE_CARD + " ("
                             + COLUMN_ID_CARD  + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
                             + COLUMN_QUESTION + " TEXT, "
                             + COLUMN_RESPONSE + " TEXT, "
                             + COLUMN_ID_DECK  + " INTEGER)";
-        // Table course
+        // Table course (working in progress)
         String course = "CREATE TABLE " + TABLE_COURSE + " ("
                             + COLUMN_ID_COURSE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                             + COLUMN_PROGRESSION + " INTEGER)";
@@ -142,75 +142,6 @@ public class DataBase extends SQLiteOpenHelper {
 
         // at last we are closing our
         // database after adding database.
-        db.close();
-    }
-
-    /**
-     * Create a view for CourseViewModal with deck selection
-     * @param deckName deck name
-     */
-    public void createView(String deckName){
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        String cmd = "CREATE VIEW course_training AS SELECT question,response FROM Card WHERE i_deck = "
-                     + getIdDeck(deckName).toString();
-        db.execSQL(cmd);
-        db.close();
-    }
-
-    /**
-     * Get all questions from the View
-     * @return list of questions
-     */
-    public ArrayList<String> getQuestionView(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.rawQuery("SELECT question FROM course_training", null);
-        mCursor.moveToFirst();
-        // on below line we are creating a new array list.
-        ArrayList<String> cmd = new ArrayList<>();
-
-        // moving our cursor to first position.
-        if (mCursor.moveToFirst()) {
-            do {
-                // on below line we are adding the data from cursor to our array list.
-                cmd.add(mCursor.getString(0));
-            } while (mCursor.moveToNext());
-            // moving our cursor to next.
-        }
-        mCursor.close();
-        return cmd;
-    }
-
-    /**
-     * Get all responses from the View
-     * @return list of responses
-     */
-    public ArrayList<String> getResponseView(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.rawQuery("SELECT response FROM course_training", null);
-        mCursor.moveToFirst();
-        // on below line we are creating a new array list.
-        ArrayList<String> cmd = new ArrayList<>();
-
-        // moving our cursor to first position.
-        if (mCursor.moveToFirst()) {
-            do {
-                // on below line we are adding the data from cursor to our array list.
-                cmd.add(mCursor.getString(0));
-            } while (mCursor.moveToNext());
-            // moving our cursor to next.
-        }
-        mCursor.close();
-        return cmd;
-    }
-
-    /**
-     * Delete current view of course training
-     */
-    public void delView(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String cmd = "DROP VIEW course_training";
-        db.execSQL(cmd);
         db.close();
     }
 

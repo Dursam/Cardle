@@ -29,7 +29,6 @@ public final class CourseActivity extends AppCompatActivity {
     private HashMap _$_findViewCache;
     public static ArrayList<CardModal> cardList;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.course_training);
