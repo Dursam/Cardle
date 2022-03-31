@@ -25,7 +25,7 @@ import kotlin.jvm.internal.Intrinsics;
 
 public final class CourseActivity extends AppCompatActivity {
 
-    // compnent for ViewModel
+    // component for ViewModel
     private HashMap _$_findViewCache;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +50,10 @@ public final class CourseActivity extends AppCompatActivity {
         // need a view table for the class CourseViewModal to get these data
         // dbCardle.createView(deckName);
 
-
+        // viewModel observer
         viewModel.getModelStream().observe((LifecycleOwner)this, (Observer)(new Observer() {
-            public void onChanged(Object var1) {
-                this.onChanged((CourseModal)var1);
+            public void onChanged(Object elem) {
+                this.onChanged((CourseModal)elem);
             }
 
             public final void onChanged(CourseModal it) {
@@ -63,6 +63,7 @@ public final class CourseActivity extends AppCompatActivity {
             }
         }));
 
+        // motion layout listener
         ((MotionLayout)this._$_findCachedViewById(id.motionLayout)).setTransitionListener((TransitionListener)(new TransitionAdapter() {
             public void onTransitionCompleted(@NotNull MotionLayout motionLayout, int currentId) {
                 Intrinsics.checkParameterIsNotNull(motionLayout, "motionLayout");
@@ -80,32 +81,35 @@ public final class CourseActivity extends AppCompatActivity {
         ((FloatingActionButton)this._$_findCachedViewById(id.unlikeFloating)).setOnClickListener((OnClickListener)(it -> ((MotionLayout) CourseActivity.this._$_findCachedViewById(id.motionLayout)).transitionToState(id.unlike)));
     }
 
+    /**
+     * Bind the card
+     * @param model course modal
+     */
     private void bindCard(CourseModal model) {
         ((ConstraintLayout)this._$_findCachedViewById(id.containerCardOne)).setBackgroundColor(model.getCardTop().getBackgroundColor());
         TextView mainViewM = (TextView)this._$_findCachedViewById(id.name);
         Intrinsics.checkExpressionValueIsNotNull(mainViewM, "name");
-        mainViewM.setText((CharSequence)(model.getCardTop().getName() + ", " + model.getCardTop().getAge()));
+        mainViewM.setText((CharSequence)(model.getCardTop().getQuestion() + ", " + model.getCardTop().getNumberCard()));
         mainViewM = (TextView)this._$_findCachedViewById(id.description);
         Intrinsics.checkExpressionValueIsNotNull(mainViewM, "description");
-        mainViewM.setText((CharSequence)model.getCardTop().getDescription());
+        mainViewM.setText((CharSequence)model.getCardTop().getResponse());
         ((ConstraintLayout)this._$_findCachedViewById(id.containerCardTwo)).setBackgroundColor(model.getCardBottom().getBackgroundColor());
     }
 
-    public View _$_findCachedViewById(int var1) {
+    /**
+     * View modal with custom View ID
+     * @param elem id element
+     * @return View
+     */
+    public View _$_findCachedViewById(int elem) {
         if (this._$_findViewCache == null) {
             this._$_findViewCache = new HashMap();
         }
-        View var2 = (View)this._$_findViewCache.get(var1);
-        if (var2 == null) {
-            var2 = this.findViewById(var1);
-            this._$_findViewCache.put(var1, var2);
+        View viewElem = (View)this._$_findViewCache.get(elem);
+        if (viewElem == null) {
+            viewElem = this.findViewById(elem);
+            this._$_findViewCache.put(elem, viewElem);
         }
-        return var2;
-    }
-
-    public void _$_clearFindViewByIdCache() {
-        if (this._$_findViewCache != null) {
-            this._$_findViewCache.clear();
-        }
+        return viewElem;
     }
 }

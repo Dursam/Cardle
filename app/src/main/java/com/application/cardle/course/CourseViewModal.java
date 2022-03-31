@@ -10,6 +10,7 @@ import kotlin.collections.CollectionsKt;
 
 public final class CourseViewModal extends ViewModel {
 
+    // component class
     private final MutableLiveData stream = new MutableLiveData();
     private final int[] cs = new int[]{Color.parseColor("#c50e29"),
                                        Color.parseColor("#c60055"),
@@ -17,11 +18,27 @@ public final class CourseViewModal extends ViewModel {
     private int currentIndex;
     private List data = loadCards();
 
+    /**
+     * Constructor CourseViewModal : Represents the course view modal session.
+     */
+    public CourseViewModal() {
+        this.updateCards();
+    }
+
+    /**
+     * Get the model stream.
+     * @return livedata of the stream
+     */
     @NotNull
     public final LiveData getModelStream() {
         return (LiveData)this.stream;
     }
 
+    /**
+     * Get the card information (in development ...)
+     * Need to adapt for our ArrayList<CardModal> </>
+     * @return question and response
+     */
     public List loadCards(){
 
         // Sample of questions/responses
@@ -44,24 +61,34 @@ public final class CourseViewModal extends ViewModel {
         return  cardsdata;
     }
 
+    /**
+     * Get the top card.
+     * @return top card
+     */
     private CourseCardModal getTopCard() {
         return (CourseCardModal)this.data.get(this.currentIndex % this.data.size());
     }
 
+    /**
+     * Get the bottom card.
+     * @return bottom card
+     */
     private CourseCardModal getBottomCard() {
         return (CourseCardModal)this.data.get((this.currentIndex + 1) % this.data.size());
     }
 
+    /**
+     * To swipe cards.
+     */
     public void swipe() {
         ++this.currentIndex;
         this.updateCards();
     }
 
+    /**
+     * To set all cards.
+     */
     private void updateCards() {
         this.stream.setValue(new CourseModal(this.getTopCard(), this.getBottomCard()));
-    }
-
-    public CourseViewModal() {
-        this.updateCards();
     }
 }
