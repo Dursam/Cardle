@@ -24,15 +24,6 @@ This is a school project from embedded programming course of Le Mans University.
 ## Table of contents
 <ol>
   <li><a href="#app-description">App description</a></li>
-  <li><a href="#functional-specification">Functional specification</a></li>
-  <li><a href="#sketch">Sketch</a></li>
-  <li><a href="#mvc-model">MVC Model</a></li>
-  <li><a href="#technical-choices">Technical choices</a></li>
-  <li><a href="#structure">Structure</a></li>
-  <li><a href="#user-story">User story</a></li>
-  <li><a href="#user-manual">User manual</a></li>
-  <li><a href="#contributors">Contributors</a></li>
-  <li><a href="#license">License</a></li>
 </ol>
   
 <!-- ABOUT THE APP -->
@@ -40,33 +31,6 @@ This is a school project from embedded programming course of Le Mans University.
 
 <p> CARDLE is a flash-card application for education and learning.<p>
 <p>It allows you to create cards composed of question (front) and answer (back).<p>
-
-<!-- FUNCTIONAL SPECIFICATION -->
-## Functional specification
-
-<!-- SKETCH -->
-## Sketch
-
-<!-- MVC MODEL -->
-## MVC Model
-
-<!-- TECHNICAL CHOICES -->
-## Technical choices
-
-<!-- STRUCTURE -->
-## Structure
-
-<!-- USER STORY -->
-## User story
-
-<!-- USER MANUAL -->
-## User manual
-
-<!-- CONTRIBUTORS -->
-## Contributors
-
-<!-- LICENSE -->
-## License
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
