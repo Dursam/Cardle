@@ -3,8 +3,7 @@ package com.application.cardle.card;
 public class CardModal {
 
     private Integer id_card;
-    private String question;
-    private String response;
+    private String question, response;
 
     /**
      * Constructor CardModal : Represents the card modal.

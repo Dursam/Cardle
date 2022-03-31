@@ -12,9 +12,19 @@ public final class CourseViewModal extends ViewModel {
 
     // component class
     private final MutableLiveData stream = new MutableLiveData();
-    private final int[] cs = new int[]{Color.parseColor("#c50e29"),
-                                       Color.parseColor("#c60055"),
-                                       Color.parseColor("#aa00c7")};
+    private final int[] cs = new int[]{
+            Color.parseColor("#c50e29"),
+            Color.parseColor("#c60055"),
+            Color.parseColor("#aa00c7"),
+            Color.parseColor("#3f1dcb"),
+            Color.parseColor("#0043ca"),
+            Color.parseColor("#005ecb"),
+            Color.parseColor("#00b686"),
+            Color.parseColor("#00b248"),
+            Color.parseColor("#32cb00"),
+            Color.parseColor("#90cc00"),
+            Color.parseColor("#c7b800"),
+            Color.parseColor("#c79400")};
     private int currentIndex;
     private List data = loadCards();
 
@@ -41,21 +51,17 @@ public final class CourseViewModal extends ViewModel {
      */
     public List loadCards(){
 
-        // Sample of questions/responses
-        String questions[] = {"What Dennis Ritchie created ?","The most PL used in France ?",
-                "Big Data PL ?","What Matsumoto created ?","Quote a functionel ?"};
-        String answer[] = {"C","Java","Python","Ruby","Haskell"};
+        int length = CourseActivity.cardList.size();
+        String[] q = new String[length];
+        String[] r = new String[length];
+        for(int i= 0;i < length;i++){
+            q[i] = CourseActivity.cardList.get(i).getQuestion();
+            r[i] = CourseActivity.cardList.get(i).getResponse();
+        }
 
-        //String questions[] = new String[cardModals.size()];
-        //String answer[] = new String[cardModals.size()];
-        //for(int i =0; i < cardModals.size(); i++){
-        //    questions[i] = cardModals.get(i).getQuestion();
-        //    answer[i] = cardModals.get(i).getResponse();
-        //}
-
-        CourseCardModal[] cards = new CourseCardModal[questions.length];
-        for(int i = 0;i < questions.length;i++){
-            cards[i] = new CourseCardModal(questions[i],i,answer[i],cs[i%(cs.length)]);
+        CourseCardModal[] cards = new CourseCardModal[length];
+        for(int i = 0;i < q.length;i++){
+            cards[i] = new CourseCardModal(q[i],i,r[i],cs[i%(cs.length)]);
         }
         List cardsdata = CollectionsKt.listOf(cards);
         return  cardsdata;

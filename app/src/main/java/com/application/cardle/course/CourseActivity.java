@@ -27,6 +27,8 @@ public final class CourseActivity extends AppCompatActivity {
 
     // component for ViewModel
     private HashMap _$_findViewCache;
+    public static ArrayList<CardModal> cardList;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +42,12 @@ public final class CourseActivity extends AppCompatActivity {
         DataBase dbCardle = new DataBase(CourseActivity.this);
 
         // pick all the cards in deck
-        ArrayList<CardModal> cardList = dbCardle.readCards(dbCardle.getIdDeck(deckName).toString());
+        cardList = dbCardle.readCards(dbCardle.getIdDeck(deckName).toString());
 
         // get our viewmodal
         ViewModel mainViewM = new ViewModelProvider(this).get(CourseViewModal.class);
         Intrinsics.checkExpressionValueIsNotNull(mainViewM, "ViewModelProviders\n     …actViewModel::class.java)");
         final CourseViewModal viewModel = (CourseViewModal) mainViewM;
-
-        // need a view table for the class CourseViewModal to get these data
-        // dbCardle.createView(deckName);
 
         // viewModel observer
         viewModel.getModelStream().observe((LifecycleOwner)this, (Observer)(new Observer() {
