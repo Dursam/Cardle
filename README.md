@@ -9,7 +9,6 @@
 
 [![Trello][trello-shield]][trello-url]
 [![Overleaf][overleaf-shield]][overleaf-url]
-[![Gantt][gantt-shield]][gantt-url]
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![AdobeXD](https://img.shields.io/badge/Adobe%20XD-470137?style=for-the-badge&logo=Adobe%20XD&logoColor=#FF61F6)
@@ -38,5 +37,3 @@ This is a school project from embedded programming course of Le Mans University.
 [trello-url]: https://trello.com/b/nehdsPvX/cardle
 [overleaf-shield]: https://img.shields.io/badge/Overleaf-47A141?style=for-the-badge&logo=Overleaf&logoColor=white
 [overleaf-url]: https://www.overleaf.com/project/6212a39c9fb87448dc51d4c8
-[gantt-shield]: https://img.shields.io/badge/Google%20Sheets-34A853?style=for-the-badge&logo=google-sheets&logoColor=white
-[gantt-url]: https://docs.google.com/spreadsheets/d/1dqjepWKRaUveipZfcAVP0KHoy-YVO6MS/edit#gid=1264653384
